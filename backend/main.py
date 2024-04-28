@@ -24,3 +24,7 @@ def save_person(name, birthday):
 def get_all():
     people = repo.get_all()
     return jsonify(people)
+
+
+if __name__ == '__main__':  # Running the flask app
+    app.run(host='127.0.0.1', port=5000, debug=True)
