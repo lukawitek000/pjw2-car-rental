@@ -1,10 +1,13 @@
 from flask import Flask, jsonify
+
+from auth import auth
 from infrastructure.person_repository import PersonRepository
 from infrastructure.person import Person
 from infrastructure.db import db
 
 
 app = Flask(__name__)
+app.register_blueprint(auth)
 
 
 db.connect()
