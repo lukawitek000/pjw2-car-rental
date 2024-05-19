@@ -2,8 +2,7 @@ from peewee import *
 from flask_login import UserMixin
 
 from domain.role import Role
-
-database = SqliteDatabase('database/my_app.db')
+from infrastructure.database import database
 
 
 class BaseModel(Model):
