@@ -1,4 +1,7 @@
+from functools import wraps
+
 from flask import Blueprint, request, jsonify
+from flask_login import login_user, current_user, LoginManager, logout_user
 from werkzeug.security import generate_password_hash
 from infrastructure.db import db
 from application.authentication_service import AuthenticationService
@@ -7,10 +10,23 @@ from infrastructure.sqlite_user_repository import SqliteUserRepository
 from infrastructure.entities import User
 
 auth = Blueprint('auth', __name__)
+login_manager = LoginManager()
 
 db.create_tables([User], safe=True)
 user_repository = SqliteUserRepository()
 auth_service = AuthenticationService(user_repository)
+
+
+def set_up_auth(app):
+    app.secret_key = "project for passing the course"
+    app.register_blueprint(auth)
+    login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return user_repository.find_by_id(user_id)
+
 
 @auth.route('/signup', methods=['POST'])
 def signup():
@@ -33,4 +49,29 @@ def login():
     user = auth_service.login(username=data['username'], password=data['password'])
     if user is None:
         return jsonify(message="Invalid username or password."), 401
+    login_user(user)
     return jsonify(id=user.id, username=user.username, role=user.role), 200
+
+
+@auth.route('/logout', methods=['POST'])
+def logout():
+    logout_user()
+    return jsonify(message="Logged out successfully."), 200
+
+
+def car_owner_role_required(view_func):
+    @wraps(view_func)
+    def decorated_view(**kwargs):
+        if current_user.role != Role.CAR_OWNER.value:
+            return jsonify(message="Access denied."), 403
+        return view_func(**kwargs)
+    return decorated_view
+
+
+def customer_role_required(view_func):
+    @wraps(view_func)
+    def decorated_view(**kwargs):
+        if current_user.role != Role.CUSTOMER.value:
+            return jsonify(message="Access denied."), 403
+        return view_func(**kwargs)
+    return decorated_view
