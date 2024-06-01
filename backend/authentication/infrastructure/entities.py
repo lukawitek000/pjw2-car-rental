@@ -2,12 +2,7 @@ from peewee import *
 from flask_login import UserMixin
 
 from authentication.domain.role import Role
-from database import database
-
-
-class BaseModel(Model):
-    class Meta:
-        database = database
+from database import BaseModel
 
 
 class User(UserMixin, BaseModel):
