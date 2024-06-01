@@ -2,8 +2,15 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+export enum ApiResponse {
+  NOT_FOUND = 404,
+  UNAUTHORIZED = 401,
+  SUCCESS = 200
+}
+
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: "http://127.0.0.1:5000"
 };
 
 /*

@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth/auth.service';
+
+export enum Role {
+  CAR_OWNER = 'car_owner',
+  CUSTOMER = 'customer'
+}
 
 @Component({
   selector: 'app-register',
@@ -7,14 +15,69 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
 
-  constructor() { }
+  public userForm = this.fb.group({
+    username: null,
+    email: null,
+    password: null,
+    isCustomer: true
+  })
 
-  newUsername: string = '';
-  newPassword: string = '';
+  public shouldRegister = false;
 
-  onRegister() {
-    // Add your registration logic here
-    console.log('Register clicked', this.newUsername, this.newPassword);
+  constructor(
+    private readonly authService: AuthService,
+    private readonly messageService: MessageService,
+    private readonly fb: FormBuilder
+  ) { }
+
+  onLogin() {
+    const credentials = {
+      username: this.userForm.value.username,
+      password: this.userForm.value.password,
+    }
+
+    this.authService.login(credentials)
+    .subscribe({
+      error: err => this.showError(err),
+      next:response => this.showLogin(response)
+    });
   }
 
+  onRegister() {
+    const credentials = {
+      username: this.userForm.value.username,
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+    }
+
+    this.authService.register(this.determineCredentialsRole(credentials))
+    .subscribe({
+      error: err => this.showError(err),
+      next:response => this.showLogin(response)
+    });
+  }
+
+  showError(err: any) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: `${err.error.message}, you need to register`});
+    this.shouldRegister = true;
+  }
+
+  showLogin(res: any) {
+    this.messageService.add({severity:'success', summary: 'KCHOW!!!', detail: `Welcome ${res.username}`});
+  }
+
+  private determineCredentialsRole(credentials: any) {
+    if(this.userForm.value.isCustomer) {
+      return {
+        ...credentials,
+        role: Role.CUSTOMER
+      }
+    }
+    else {
+      return {
+        ...credentials,
+        role: Role.CAR_OWNER
+      }
+    }
+  }
 }

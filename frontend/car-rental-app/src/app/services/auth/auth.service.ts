@@ -1,14 +1,35 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
+import { ApiResponse, environment } from "src/environments/environment";
 
-@Injectable() 
+@Injectable({
+    providedIn: 'root',
+  }) 
 export class AuthService {
     constructor(
         private http: HttpClient
     ) {}
     
-    public login() : Observable<boolean> {
-       return of(true)
+    private readonly url = environment.apiUrl;
+
+    public login(credentials: {username: any, password: any }) : Observable<any> {
+        const params = {
+            username: credentials.username,
+            password: credentials.password,
+        }
+
+        return this.http.post(`${this.url}/login`, params);
+    }
+
+    public register(credentials: {username: any, email: any, password: any, role: any}) : Observable<any> {
+        const params = {
+            username: credentials.username,
+            email: credentials.email,
+            password: credentials.password,
+            role: credentials.role
+        }
+
+        return this.http.post(`${this.url}/signup`, params);
     }
 }

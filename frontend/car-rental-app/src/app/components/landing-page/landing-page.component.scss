@@ -5,6 +5,12 @@ body {
   color: #333;
 }
 
+.layout {
+  min-width: 1024px;
+  overflow-x: auto;
+  overflow-y: hidden !important;
+}
+
 a {
   text-decoration: none;
   color: inherit;

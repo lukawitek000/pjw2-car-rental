@@ -7,6 +7,7 @@ import { AuthModule } from './components/auth/auth.module';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { LandingPageModule } from './components/landing-page/landing-page.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LandingPageModule } from './components/landing-page/landing-page.module
     BrowserModule,
     AppRoutingModule,
     LandingPageModule,
-    AuthModule
+    AuthModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
