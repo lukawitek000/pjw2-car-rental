@@ -15,8 +15,6 @@ def set_up_customer_endpoints(app):
 
 
 @customer_endpoints.route("/get_all_offers", methods=['GET'])
-@login_required
-@customer_role_required
 def get_offers(offer_service: OfferService):
     offers = offer_service.get_all_offers()
     offers_dict = [offer_to_dict(offer) for offer in offers]
