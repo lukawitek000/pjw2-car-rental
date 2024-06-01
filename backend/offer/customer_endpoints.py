@@ -3,7 +3,7 @@ import json
 from flask import Blueprint, jsonify
 from flask_login import login_required
 
-from authentication.auth import customer_role_required
+from authentication.auth_endpoints import customer_role_required
 from offer.application.offer_service import OfferService
 from offer.json_converter import offer_to_dict
 

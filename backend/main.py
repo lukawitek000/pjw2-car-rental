@@ -1,5 +1,5 @@
 from flask import Flask
-from authentication.auth import set_up_auth
+from authentication.auth_endpoints import set_up_auth
 from di import init_di
 from database import set_up_database
 from offer.customer_endpoints import set_up_customer_endpoints

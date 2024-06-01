@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 
-from authentication.auth import car_owner_role_required
+from authentication.auth_endpoints import car_owner_role_required
 from offer.application.offer_service import OfferService
 
 owner_operations = Blueprint('owner_operations', __name__)
