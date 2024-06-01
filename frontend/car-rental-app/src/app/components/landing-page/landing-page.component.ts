@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-landing-page',
@@ -11,6 +10,10 @@ export class LandingPageComponent {
 
 
   constructor(
+    private readonly messageService: MessageService,
     ) {}
 
+    onKchaw() {
+      this.messageService.add({severity:'error', summary: 'KCHOW!!!'});
+    }
 }

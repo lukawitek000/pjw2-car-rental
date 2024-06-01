@@ -1,0 +1,41 @@
+<div class="flex h-100 d-column layout">
+    <div class="w-100">
+      <header class="header">
+        <nav class="navbar">
+            <div class="logo">CarRental</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+      </header>
+      <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search offers..." />
+        <p-calendar placeholder="From Date"></p-calendar>
+        <p-calendar placeholder="To Date"></p-calendar>
+        <button class="btn-search">Search</button>
+      </div>
+    </div>
+    <div class="flex f-grow-2 offers-container content-around items-center">
+      <div *ngFor="let offer of (offers$ | async)" class="offer-card">
+        <h3>{{offer.car.car_make}} {{offer.car.car_model}} ({{offer.car.car_year}})</h3>
+        <p><strong>Mileage:</strong> {{offer.car.mileage}} miles</p>
+        <p><strong>Fuel Type:</strong> {{offer.car.fuel_type}}</p>
+        <p><strong>Transmission:</strong> {{offer.car.transmission}}</p>
+        <p><strong>Additional Features:</strong> {{offer.car.additional_features}}</p>
+        <p><strong>Extra Features:</strong> {{offer.car.extra_features}}</p>
+        <p><strong>Pickup Location:</strong> {{offer.pickup_location}}</p>
+        <p><strong>Return Location:</strong> {{offer.return_location}}</p>
+        <p><strong>Price per Day:</strong> ${{offer.price_per_day}}</p>
+        <p><strong>Available from:</strong> {{offer.start_date_time | date:'longDate'}}</p>
+        <p><strong>Until:</strong> {{offer.end_date_time | date:'longDate'}}</p>
+      </div>
+    </div>
+    <div>
+      <footer class="footer">
+        <p>&copy; 2024 Car Rental. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>

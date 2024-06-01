@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 export enum Role {
   CAR_OWNER = 'car_owner',
@@ -27,7 +28,8 @@ export class RegisterComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly messageService: MessageService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly router: Router
   ) { }
 
   onLogin() {
@@ -64,6 +66,7 @@ export class RegisterComponent {
 
   showLogin(res: any) {
     this.messageService.add({severity:'success', summary: 'KCHOW!!!', detail: `Welcome ${res.username}`});
+    this.redirectToOffers();
   }
 
   private determineCredentialsRole(credentials: any) {
@@ -79,5 +82,9 @@ export class RegisterComponent {
         role: Role.CAR_OWNER
       }
     }
+  }
+
+  private redirectToOffers() {
+    this.router.navigate(['/offers']);
   }
 }
