@@ -32,8 +32,8 @@ class OfferService:
         car.car_id = self.offer_repository.create_car(car, owner)
         return car.car_id
 
-    def get_all_offers(self):
-        return self.offer_repository.get_all_offers()
+    def get_all_offers(self, filter_options, sort_options):
+        return self.offer_repository.get_all_offers(filter_options, sort_options)
 
     def get_all_offers_for_car(self, car_id):
         return self.offer_repository.get_offers_by_car_id(car_id)
