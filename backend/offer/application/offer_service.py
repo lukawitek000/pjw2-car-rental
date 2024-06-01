@@ -25,3 +25,6 @@ class OfferService:
         owner = self.user_repository.find_by_username(owner_username)
         car.car_id = self.offer_repository.create_car(car, owner)
         return car.car_id
+
+    def get_all_offers(self):
+        return self.offer_repository.get_all_offers()

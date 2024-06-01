@@ -20,3 +20,6 @@ class SqliteOfferRepository(OfferRepository):
         if car_entity is None:
             return None
         return car_entity.to_domain_model()
+
+    def get_all_offers(self) -> list:
+        return [offer.to_domain_model() for offer in OfferEntity.select()]
