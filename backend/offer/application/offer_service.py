@@ -37,3 +37,6 @@ class OfferService:
 
     def get_all_offers_for_car(self, car_id):
         return self.offer_repository.get_offers_by_car_id(car_id)
+
+    def get_all_owned_cars(self, owner_username):
+        return self.offer_repository.get_cars_by_owner_id(owner_username)

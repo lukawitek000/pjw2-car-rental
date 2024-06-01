@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 from authentication.auth_endpoints import car_owner_role_required
 from offer.application.offer_service import OfferService
 from offer.domain.invalid_offer_error import InvalidOfferError
-from offer.json_converter import offer_to_dict
+from offer.json_converter import offer_to_dict, car_to_dict
 
 owner_operations = Blueprint('owner_operations', __name__)
 
@@ -51,3 +51,12 @@ def get_all_offers_for_car(offer_service: OfferService, param):
     offers = offer_service.get_all_offers_for_car(param)
     offers_dict = [offer_to_dict(offer) for offer in offers]
     return jsonify({"offers": offers_dict}), 200
+
+
+@owner_operations.route("/get_all_owned_cars", methods=['GET'])
+@login_required
+@car_owner_role_required
+def get_all_owned_cars(offer_service: OfferService):
+    cars = offer_service.get_all_owned_cars(current_user.username)
+    cars_dict = [car_to_dict(car) for car in cars]
+    return jsonify({"cars": cars_dict}), 200
