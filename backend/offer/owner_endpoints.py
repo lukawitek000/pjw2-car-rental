@@ -7,7 +7,7 @@ from offer.application.offer_service import OfferService
 owner_operations = Blueprint('owner_operations', __name__)
 
 
-def set_up_owner_operations(app):
+def set_up_owner_endpoints(app):
     app.register_blueprint(owner_operations)
 
 
