@@ -24,7 +24,7 @@ class CarEntity(BaseModel):
             car_year=self.car_year,
             fuel_type=self.fuel_type,
             transmission=self.transmission,
-            owner_id=self.owner_id,
+            owner_id=self.owner_username,
             mileage=self.mileage,
             additional_features=self.additional_features
         )

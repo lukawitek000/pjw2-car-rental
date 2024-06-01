@@ -6,8 +6,7 @@ from database import BaseModel
 
 
 class User(UserMixin, BaseModel):
-    id = AutoField()
-    username = CharField(unique=True)
+    username = CharField(unique=True, primary_key=True)
     email = CharField(unique=True)
     password_hash = CharField()
     role = CharField()
@@ -19,3 +18,6 @@ class User(UserMixin, BaseModel):
     @role_enum.setter
     def role_enum(self, role):
         self.role = role.value
+
+    def get_id(self):
+        return self.username

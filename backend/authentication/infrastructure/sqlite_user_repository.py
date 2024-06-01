@@ -13,11 +13,6 @@ class SqliteUserRepository(UserRepository):
         except User.DoesNotExist:
             return None
 
-    def find_by_id(self, user_id):
-        try:
-            return User.get(User.id == user_id)
-        except User.DoesNotExist:
-            return None
 
 
 

@@ -1,3 +1,5 @@
+from injector import inject
+
 from offer.domain.car import Car
 from offer.domain.offer import Offer
 

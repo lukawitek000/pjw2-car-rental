@@ -6,10 +6,14 @@ from offer.infrastructure.offer_entity import OfferEntity
 
 class SqliteOfferRepository(OfferRepository):
     def create_offer(self, offer) -> int:
-        return OfferEntity.from_domain_model(offer).save()
+        offer_entity = OfferEntity.from_domain_model(offer)
+        offer_entity.save()
+        return offer_entity.offer_id
 
     def create_car(self, car, owner) -> int:
-        return CarEntity.from_domain_model(car, owner).save()
+        car_entity = CarEntity.from_domain_model(car, owner)
+        car_entity.save()
+        return car_entity.car_id
 
     def get_car(self, car_id) -> Car:
         car_entity = CarEntity.get_or_none(CarEntity.car_id == car_id)

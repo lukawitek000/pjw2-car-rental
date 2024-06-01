@@ -2,16 +2,13 @@ from functools import wraps
 
 from flask import Blueprint, request, jsonify
 from flask_login import login_user, current_user, LoginManager, logout_user
+
 from authentication.application.authentication_service import AuthenticationService
 from authentication.domain.role import Role
-from authentication.infrastructure.sqlite_user_repository import SqliteUserRepository
+from di import provide_user_repository
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
-
-
-user_repository = SqliteUserRepository()
-auth_service = AuthenticationService(user_repository)
 
 
 def set_up_auth(app):
@@ -22,11 +19,12 @@ def set_up_auth(app):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return user_repository.find_by_id(user_id)
+    user_repository = provide_user_repository()
+    return user_repository.find_by_username(user_id)
 
 
 @auth.route('/signup', methods=['POST'])
-def signup():
+def signup(auth_service: AuthenticationService):
     data = request.get_json()
     new_user = auth_service.signup(
         username=data['username'],
@@ -41,13 +39,13 @@ def signup():
 
 
 @auth.route('/login', methods=['POST'])
-def login():
+def login(auth_service: AuthenticationService):
     data = request.get_json()
     user = auth_service.login(username=data['username'], password=data['password'])
     if user is None:
         return jsonify(message="Invalid username or password."), 401
     login_user(user)
-    return jsonify(id=user.id, username=user.username, role=user.role), 200
+    return jsonify(username=user.username, role=user.role), 200
 
 
 @auth.route('/logout', methods=['POST'])
