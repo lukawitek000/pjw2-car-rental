@@ -1,11 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
-import { ApiResponse, environment } from "src/environments/environment";
+import { environment } from "src/environments/environment";
 
-@Injectable({
-    providedIn: 'root',
-  }) 
+@Injectable() 
 export class AuthService {
     constructor(
         private http: HttpClient
