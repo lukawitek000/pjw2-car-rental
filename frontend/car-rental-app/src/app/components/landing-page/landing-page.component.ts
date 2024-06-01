@@ -11,8 +11,6 @@ export class LandingPageComponent {
 
 
   constructor(
-    private readonly fb: FormBuilder,
-    private readonly router: Router
     ) {}
 
 }
