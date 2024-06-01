@@ -1,6 +1,6 @@
 from peewee import *
 
-from authentication.infrastructure.entities import User
+from authentication.infrastructure.user_entity import UserEntity
 from database import BaseModel
 from offer.domain.car import Car
 
@@ -12,7 +12,7 @@ class CarEntity(BaseModel):
     car_year = IntegerField()
     fuel_type = CharField()
     transmission = CharField()
-    owner = ForeignKeyField(User, backref='cars')
+    owner = ForeignKeyField(UserEntity, backref='cars')
     mileage = IntegerField()
     additional_features = TextField()
 
