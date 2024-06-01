@@ -1,6 +1,6 @@
 from werkzeug.security import check_password_hash, generate_password_hash
-from domain.role import Role
-from infrastructure.entities import User
+from authentication.domain.role import Role
+from authentication.infrastructure.entities import User
 
 
 class AuthenticationService:

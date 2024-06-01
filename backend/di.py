@@ -1,8 +1,8 @@
 from flask_injector import FlaskInjector
 from injector import Binder
 
-from domain.user_repository import UserRepository
-from infrastructure.sqlite_user_repository import SqliteUserRepository
+from authentication.domain.user_repository import UserRepository
+from authentication.infrastructure.sqlite_user_repository import SqliteUserRepository
 
 
 def configure(binder: Binder):
