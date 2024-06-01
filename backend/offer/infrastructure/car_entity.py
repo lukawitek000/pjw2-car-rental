@@ -12,7 +12,7 @@ class CarEntity(BaseModel):
     car_year = IntegerField()
     fuel_type = CharField()
     transmission = CharField()
-    owner = ForeignKeyField(UserEntity, backref='cars')
+    owner = ForeignKeyField(UserEntity, to_field="username", backref='cars')
     mileage = IntegerField()
     additional_features = TextField()
 
@@ -24,7 +24,7 @@ class CarEntity(BaseModel):
             car_year=self.car_year,
             fuel_type=self.fuel_type,
             transmission=self.transmission,
-            owner_id=self.owner_username,
+            owner_id=self.owner_id,
             mileage=self.mileage,
             additional_features=self.additional_features
         )
@@ -37,7 +37,7 @@ class CarEntity(BaseModel):
             car_year=car.car_year,
             fuel_type=car.fuel_type,
             transmission=car.transmission,
-            owner=owner,
+            owner=UserEntity.get(UserEntity.username == owner.username),
             mileage=car.mileage,
             additional_features=car.additional_features
         )

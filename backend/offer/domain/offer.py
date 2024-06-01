@@ -1,5 +1,5 @@
 class Offer:
-    def __init__(self, user_id, car, price_per_day, extra_features, start_date_time, end_date_time, pickup,
+    def __init__(self, user_id, car, price_per_day, extra_features, start_date_time, end_date_time, pickup_location,
                  return_location, offer_id=None):
         self.user_id = user_id
         self.offer_id = offer_id
@@ -8,7 +8,7 @@ class Offer:
         self.extra_features = extra_features
         self.start_date_time = start_date_time
         self.end_date_time = end_date_time
-        self.pickup_location = pickup
+        self.pickup_location = pickup_location
         self.return_location = return_location
 
     def __str__(self):
