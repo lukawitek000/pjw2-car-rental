@@ -1,5 +1,5 @@
-from domain.user_repository import UserRepository
-from infrastructure.entities import User
+from authentication.domain.user_repository import UserRepository
+from authentication.infrastructure.entities import User
 
 
 class SqliteUserRepository(UserRepository):

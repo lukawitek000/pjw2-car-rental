@@ -2,10 +2,9 @@ from functools import wraps
 
 from flask import Blueprint, request, jsonify
 from flask_login import login_user, current_user, LoginManager, logout_user
-from application.authentication_service import AuthenticationService
-from domain.role import Role
-from infrastructure.sqlite_user_repository import SqliteUserRepository
-from infrastructure.entities import User
+from authentication.application.authentication_service import AuthenticationService
+from authentication.domain.role import Role
+from authentication.infrastructure.sqlite_user_repository import SqliteUserRepository
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()

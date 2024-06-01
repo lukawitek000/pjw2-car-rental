@@ -1,5 +1,5 @@
 from flask_login import login_required
-from auth import *
+from authentication.auth import *
 
 draft = Blueprint('draft', __name__)
 
