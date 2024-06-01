@@ -48,7 +48,7 @@ def login(auth_service: AuthenticationService):
         login_user(LoginUser.from_domain_model(user))
         return jsonify(username=user.username, role=user.role), 200
     except Exception as e:
-        return jsonify(message=str(e)), 400
+        return jsonify(message=str(e)), 404
 
 
 @auth.route('/logout', methods=['POST'])
