@@ -11,6 +11,12 @@ class Offer:
         self.pickup_location = pickup_location
         self.return_location = return_location
 
+    def is_overlapping(self, existing_offers):
+        for offer in existing_offers:
+            if self.start_date_time <= offer.end_date_time and self.end_date_time >= offer.start_date_time:
+                return True
+        return False
+
     def __str__(self):
         return f"User ID: {self.user_id}, Offer ID: {self.offer_id}, Car: {self.car}, Price Per Day: {self.price_per_day}, " \
                 f"Extra Features: {self.extra_features}, Start Date Time: {self.start_date_time}, " \

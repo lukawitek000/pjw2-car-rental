@@ -23,3 +23,6 @@ class SqliteOfferRepository(OfferRepository):
 
     def get_all_offers(self) -> list:
         return [offer.to_domain_model() for offer in OfferEntity.select()]
+
+    def get_offers_by_car_id(self, car_id) -> list:
+        return [offer.to_domain_model() for offer in OfferEntity.select().where(OfferEntity.car == car_id)]
