@@ -43,4 +43,4 @@ def add_offer(offer_service: OfferService):
 def get_all_offers_for_car(offer_service: OfferService, param):
     offers = offer_service.get_all_offers_for_car(param)
     offers_dict = [offer_to_dict(offer) for offer in offers]
-    return jsonify(offers_dict), 200
+    return jsonify({"offers": offers_dict}), 200

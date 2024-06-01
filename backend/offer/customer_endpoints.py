@@ -18,4 +18,4 @@ def set_up_customer_endpoints(app):
 def get_offers(offer_service: OfferService):
     offers = offer_service.get_all_offers()
     offers_dict = [offer_to_dict(offer) for offer in offers]
-    return jsonify(offers_dict), 200
+    return jsonify({"offers": offers_dict}), 200
