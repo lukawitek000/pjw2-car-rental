@@ -17,7 +17,7 @@ class OfferRepository(ABC):
         pass
 
     @abstractmethod
-    def get_all_offers(self) -> list:
+    def get_all_offers(self, filter_options, sort_options) -> list:
         pass
 
     @abstractmethod
