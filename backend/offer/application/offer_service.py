@@ -21,8 +21,7 @@ class OfferService:
 
         offer = Offer(user_id=owner_username, car=car, **offer_details)
 
-        if offer.is_overlapping(existing_offers):
-            raise ValueError("The new offer overlaps with an existing offer")
+        offer.validate(existing_offers)
 
         offer.offer_id = self.offer_repository.create_offer(offer)
         return offer.offer_id

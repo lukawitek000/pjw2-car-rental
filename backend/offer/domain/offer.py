@@ -1,3 +1,6 @@
+from offer.domain.invalid_offer_error import InvalidOfferError
+
+
 class Offer:
     def __init__(self, user_id, car, price_per_day, extra_features, start_date_time, end_date_time, pickup_location,
                  return_location, offer_id=None):
@@ -11,11 +14,10 @@ class Offer:
         self.pickup_location = pickup_location
         self.return_location = return_location
 
-    def is_overlapping(self, existing_offers):
+    def validate(self, existing_offers):
         for offer in existing_offers:
             if self.start_date_time <= offer.end_date_time and self.end_date_time >= offer.start_date_time:
-                return True
-        return False
+                raise InvalidOfferError("The new offer overlaps with an existing offer")
 
     def __str__(self):
         return f"User ID: {self.user_id}, Offer ID: {self.offer_id}, Car: {self.car}, Price Per Day: {self.price_per_day}, " \
