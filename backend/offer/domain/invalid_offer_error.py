@@ -1,0 +1,3 @@
+
+class InvalidOfferError(Exception):
+    pass

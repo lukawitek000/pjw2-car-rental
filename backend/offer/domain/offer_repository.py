@@ -19,3 +19,7 @@ class OfferRepository(ABC):
     @abstractmethod
     def get_all_offers(self) -> list:
         pass
+
+    @abstractmethod
+    def get_offers_by_car_id(self, car_id) -> list:
+        pass
