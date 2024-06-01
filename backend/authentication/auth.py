@@ -1,17 +1,16 @@
 from functools import wraps
 
 from flask import Blueprint, request, jsonify
-from flask_login import login_user, current_user, LoginManager, logout_user
+from flask_login import login_user, current_user, LoginManager, logout_user, login_required
+
 from authentication.application.authentication_service import AuthenticationService
 from authentication.domain.role import Role
-from authentication.infrastructure.sqlite_user_repository import SqliteUserRepository
+from authentication.domain.user import User
+from authentication.login_user import LoginUser
+from di import provide_user_repository
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
-
-
-user_repository = SqliteUserRepository()
-auth_service = AuthenticationService(user_repository)
 
 
 def set_up_auth(app):
@@ -22,35 +21,38 @@ def set_up_auth(app):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return user_repository.find_by_id(user_id)
+    user_repository = provide_user_repository()
+    return LoginUser.from_domain_model(user_repository.find_by_username(user_id))
 
 
 @auth.route('/signup', methods=['POST'])
-def signup():
+def signup(auth_service: AuthenticationService):
     data = request.get_json()
-    new_user = auth_service.signup(
-        username=data['username'],
-        email=data['email'],
-        password=data['password'],
-        role=Role(data['role'])
-    )
+    password = data.pop('password')
+    role = data.pop('role')
+    user = User(**data, role=Role(role))
+    new_user = auth_service.signup(user, password)
     if new_user is None:
         return jsonify(message="This username or email is already used."), 400
 
-    return jsonify(id=new_user.id, username=new_user.username, role=new_user.role), 201
+    return jsonify(username=new_user.username, role=new_user.role), 201
 
 
 @auth.route('/login', methods=['POST'])
-def login():
+def login(auth_service: AuthenticationService):
     data = request.get_json()
-    user = auth_service.login(username=data['username'], password=data['password'])
-    if user is None:
-        return jsonify(message="Invalid username or password."), 401
-    login_user(user)
-    return jsonify(id=user.id, username=user.username, role=user.role), 200
+    try:
+        user = auth_service.login(username=data['username'], password=data['password'])
+        if user is None:
+            return jsonify(message="Invalid password."), 401
+        login_user(LoginUser.from_domain_model(user))
+        return jsonify(username=user.username, role=user.role), 200
+    except Exception as e:
+        return jsonify(message=str(e)), 404
 
 
 @auth.route('/logout', methods=['POST'])
+@login_required
 def logout():
     logout_user()
     return jsonify(message="Logged out successfully."), 200
