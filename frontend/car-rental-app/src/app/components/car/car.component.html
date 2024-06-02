@@ -15,23 +15,11 @@
         <input type="text" class="search-box" placeholder="Search offers..." formControlName="search"/>
         <p-calendar placeholder="From Date" formControlName="fromDate"></p-calendar>
         <p-calendar placeholder="To Date" formControlName="toDate"></p-calendar>
-        <button class="btn-search" (click)="onOffersGet()">Search</button>
+        <button class="btn-search">Search</button>
       </div>
     </div>
     <div class="flex f-grow-2 offers-container content-around items-center">
-      <div *ngFor="let offer of (offers$ | async)" class="offer-card">
-        <h3>{{offer.car.car_make}} {{offer.car.car_model}} ({{offer.car.car_year}})</h3>
-        <p><strong>Mileage:</strong> {{offer.car.mileage}} miles</p>
-        <p><strong>Fuel Type:</strong> {{offer.car.fuel_type}}</p>
-        <p><strong>Transmission:</strong> {{offer.car.transmission}}</p>
-        <p><strong>Additional Features:</strong> {{offer.car.additional_features}}</p>
-        <p><strong>Extra Features:</strong> {{offer.car.extra_features}}</p>
-        <p><strong>Pickup Location:</strong> {{offer.pickup_location}}</p>
-        <p><strong>Return Location:</strong> {{offer.return_location}}</p>
-        <p><strong>Price per Day:</strong> ${{offer.price_per_day}}</p>
-        <p><strong>Available from:</strong> {{offer.start_date_time | date:'longDate'}}</p>
-        <p><strong>Until:</strong> {{offer.end_date_time | date:'longDate'}}</p>
-      </div>
+      
     </div>
     <div>
       <footer class="footer">

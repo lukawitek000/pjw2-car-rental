@@ -1,0 +1,56 @@
+<div class="flex h-100 d-column layout">
+  <div class="w-100">
+    <header class="header">
+      <nav class="navbar">
+        <div class="logo">CarRental</div>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+  <div class="flex f-grow-2">
+    <div class="add-offer-container flex content-between d-column" [formGroup]="offerForm">
+      <div>
+        <h2>Add a New Offer</h2>
+      </div>
+      <div class="form-group">
+        <label for="car">Car:</label>
+        <input type="text" id="car" formControlName="car_id" required>
+      </div>
+      <div class="form-group">
+        <label for="price_per_day">Price per Day:</label>
+        <input type="number" id="price_per_day" formControlName="price_per_day" required>
+      </div>
+      <div class="form-group">
+        <label for="extra_features">Extra Features:</label>
+        <input type="text" id="extra_features" formControlName="extra_features">
+      </div>
+      <div class="form-group">
+        <label for="start_date_time">Start Date and Time:</label>
+        <p-calendar id="start_date_time" formControlName="start_date_time" [showTime]="true" hourFormat="24"></p-calendar>
+      </div>
+      <div class="form-group">
+        <label for="end_date_time">End Date and Time:</label>
+        <p-calendar id="end_date_time" formControlName="end_date_time" [showTime]="true" hourFormat="24"></p-calendar>
+      </div>
+      <div class="form-group">
+        <label for="pickup_location">Pickup Location:</label>
+        <input type="text" id="pickup_location" formControlName="pickup_location" required>
+      </div>
+      <div class="form-group">
+        <label for="return_location">Return Location:</label>
+        <input type="text" id="return_location" formControlName="return_location" required>
+      </div>
+      <button type="submit" [disabled]="!offerForm.valid" (click)="onOfferAdd()">Add Offer</button>
+    </div>
+  </div>
+  <div>
+    <footer class="footer">
+      <p>&copy; 2024 Car Rental. All rights reserved.</p>
+    </footer>
+  </div>
+</div>
