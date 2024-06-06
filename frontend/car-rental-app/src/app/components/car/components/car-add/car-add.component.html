@@ -1,0 +1,57 @@
+<div class="flex h-100 d-column layout">
+  <div class="w-100">
+    <header class="header">
+      <nav class="navbar">
+        <div class="logo">CarRental</div>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+  <div class="flex f-grow-2" >
+    <div class="add-car-container flex content-between d-column" [formGroup]="carForm">
+      <div>
+        <h2>Add a New Car</h2>
+      </div>
+      <div class="form-group">
+        <label for="carModel">Car Model:</label>
+        <input type="text" id="carModel" formControlName="car_model" required>
+      </div>
+      <div class="form-group">
+        <label for="carMake">Car Make:</label>
+        <input type="text" id="carMake" formControlName="car_make" required>
+      </div>
+      <div class="form-group">
+        <label for="carYear">Car Year:</label>
+        <p-calendar id="carYear" formControlName="car_year" [yearNavigator]="true" [monthNavigator]="true"
+                    yearRange="1900:2030" dateFormat="yy"></p-calendar>
+      </div>
+      <div class="form-group">
+        <label for="fuelType">Fuel Type:</label>
+        <input type="text" id="fuelType" formControlName="fuel_type" required>
+      </div>
+      <div class="form-group">
+        <label for="transmission">Transmission:</label>
+        <input type="text" id="transmission" formControlName="transmission" required>
+      </div>
+      <div class="form-group">
+        <label for="mileage">Mileage:</label>
+        <input type="number" id="mileage" formControlName="mileage" required>
+      </div>
+      <div class="form-group">
+        <label for="additionalFeatures">Additional Features:</label>
+        <input type="text" id="additionalFeatures" formControlName="additional_features">
+      </div>
+      <button type="submit" (click)="onCarAdd()" [disabled]="carForm.valid">Add Car</button>
+    </div>    
+  </div>
+  <div>
+    <footer class="footer">
+      <p>&copy; 2024 Car Rental. All rights reserved.</p>
+    </footer>
+  </div>
+</div>

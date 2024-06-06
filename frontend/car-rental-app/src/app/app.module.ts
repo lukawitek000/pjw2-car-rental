@@ -6,6 +6,7 @@ import { AuthModule } from './components/auth/auth.module';
 import { LandingPageModule } from './components/landing-page/landing-page.module';
 import { HttpClientModule } from '@angular/common/http';
 import { OfferModule } from './components/offer/offer.module';
+import { CarModule } from './components/car/car.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { OfferModule } from './components/offer/offer.module';
     LandingPageModule,
     AuthModule,
     HttpClientModule,
-    OfferModule
+    OfferModule,
+    CarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

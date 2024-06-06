@@ -2,14 +2,14 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { OfferService } from 'src/app/services/offers/offer.service';
+
 @Component({
-  selector: 'app-offer',
-  templateUrl: './offer.component.html',
-  styleUrls: ['./offer.component.scss']
+  selector: 'app-car',
+  templateUrl: './car.component.html',
+  styleUrls: ['./car.component.scss']
 })
-export class OfferComponent implements OnInit {
-  
+export class CarComponent implements OnInit {
+
   public offers$: Observable<any> | undefined;
 
   private today = new Date();
@@ -21,17 +21,13 @@ export class OfferComponent implements OnInit {
     toDate: [this.twoWeeksFromToday]
   })
   
+
   constructor(
-    private offerService: OfferService,
     private readonly fb: FormBuilder,
     private readonly datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
-    this.onOffersGet();
-  }
-
-  onOffersGet(): void {
     const timeFormat = 'yyyy-MM-ddTHH:mm:ss';
 
     const filters = {
@@ -39,7 +35,5 @@ export class OfferComponent implements OnInit {
       fromDate: this.datePipe.transform(this.utilForm.value.fromDate, timeFormat),
       toDate: this.datePipe.transform(this.utilForm.value.toDate, timeFormat)
     };
-
-    this.offers$ = this.offerService.getAllOffers(filters);
   }
 }

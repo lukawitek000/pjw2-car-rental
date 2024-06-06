@@ -1,22 +1,30 @@
 import { NgModule } from "@angular/core";
 import { OfferComponent } from "./offer.component";
 import { OfferService } from "src/app/services/offers/offer.service";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { CalendarModule } from 'primeng/calendar';
+import { OfferAddComponent } from './components/offer-add/offer-add.component';
+import { RouterModule } from "@angular/router";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     declarations: [
-        OfferComponent
+        OfferComponent,
+        OfferAddComponent
     ],
     imports: [
         CommonModule,
-        CalendarModule
+        CalendarModule,
+        RouterModule,
+        ReactiveFormsModule,
     ],
     exports: [
-        OfferComponent
+        OfferComponent,
+        OfferAddComponent
     ],
     providers: [
-        OfferService
+        OfferService,
+        DatePipe
     ]
   })
   export class OfferModule { }

@@ -3,12 +3,14 @@ import { FormBuilder } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 export enum Role {
   CAR_OWNER = 'car_owner',
   CUSTOMER = 'customer'
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -39,6 +41,9 @@ export class RegisterComponent {
     }
 
     this.authService.login(credentials)
+    .pipe(
+      untilDestroyed(this)
+    )
     .subscribe({
       error: err => this.showError(err),
       next:response => this.showLogin(response)
