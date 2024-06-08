@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 
@@ -9,7 +12,8 @@ from offer.customer_endpoints import set_up_customer_endpoints
 from offer.owner_endpoints import set_up_owner_endpoints
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
+load_dotenv()
+CORS(app, resources={r"/*": {"origins": os.getenv("CORS-ORIGIN")}})
 
 
 if __name__ == '__main__':  # Running the flask app
