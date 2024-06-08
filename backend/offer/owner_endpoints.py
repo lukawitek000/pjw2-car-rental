@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 
 from authentication.auth_endpoints import car_owner_role_required
+from location.application.location_service import LocationService
 from offer.application.offer_service import OfferService
 from offer.domain.invalid_offer_error import InvalidOfferError
 from offer.json_converter import offer_to_dict, car_to_dict
@@ -28,7 +29,7 @@ def add_car(offer_service: OfferService):
 @owner_operations.route("/add_offer", methods=['POST'])
 @login_required
 @car_owner_role_required
-def add_offer(offer_service: OfferService):
+def add_offer(offer_service: OfferService, location_service: LocationService):
     try:
         offer_details = request.get_json()
         owner_username = current_user.username
