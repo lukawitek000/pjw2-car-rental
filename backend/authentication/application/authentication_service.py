@@ -1,5 +1,10 @@
+import os
+
+import jwt
+from jwt import DecodeError
 from werkzeug.security import check_password_hash, generate_password_hash
 from authentication.domain.user import User
+from authentication.infrastructure.user_entity import UserEntity
 
 
 class AuthenticationService:
@@ -15,6 +20,16 @@ class AuthenticationService:
         password_hash = self.__hash_password(password)
         self.user_repository.create_user(user, password_hash)
         return user
+
+    def find_user_by_jwt_token(self, token: str) -> User:
+        try:
+            data = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=["HS256"])
+            current_user = self.user_repository.find_by_username(data['username'])
+            if not current_user:
+                raise Exception('User not found')
+            return current_user
+        except DecodeError:
+            raise Exception('Token is invalid')
 
     def __hash_password(self, password: str) -> str:
         return generate_password_hash(password)
