@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from peewee import *
 
 from authentication.infrastructure.user_entity import UserEntity

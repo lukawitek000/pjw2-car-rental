@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from offer.domain.car import Car
 from offer.domain.offer_repository import OfferRepository
 from offer.domain.offer_sort_options import SortByPrice
