@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, request
 
 from location.application.location_service import LocationService
+from location.domain.geocoding_exceptions import NoResultsFoundForAddressException, GeocodingRequestFailed
 from offer.application.offer_service import OfferService
 from offer.domain.offer_filter_options import OfferFilterOptions
 from offer.domain.offer_sort_options import OfferSortOptions
@@ -25,12 +26,12 @@ def get_offers(offer_service: OfferService, location_service: LocationService):
     sort_by_price = request.args.get('sort_by_price')
     try:
         pickup_location_coordinates = location_service.find_coordinates_for_address(pickup_location)
-    except ValueError as e:
-        return jsonify({"message": "Wrong pick up location"}), 418
+    except (NoResultsFoundForAddressException, GeocodingRequestFailed) as e:
+        return jsonify({"message": f"Wrong pick up location: {str(e)}"}), 418
     try:
         return_location_coordinates = location_service.find_coordinates_for_address(return_location)
     except ValueError as e:
-        return jsonify({"message": "Wrong return location"}), 418
+        return jsonify({"message": f"Wrong return location: {str(e)}"}), 418
 
     start_date_time = datetime.strptime(start_date_time, '%Y-%m-%dT%H:%M:%S') if start_date_time else None
     end_date_time = datetime.strptime(end_date_time, '%Y-%m-%dT%H:%M:%S') if end_date_time else None

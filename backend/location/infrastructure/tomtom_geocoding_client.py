@@ -21,7 +21,7 @@ class TomTomGeocodingClient(GeocodingClient):
             raise GeocodingRequestFailed(f"Request failed with status code {response.status_code}")
 
         if not data["results"]:
-            raise NoResultsFoundForAddressException(address)
+            raise NoResultsFoundForAddressException(f"No results found for address: {address}")
         latitude = data["results"][0]["position"]["lat"]
         longitude = data["results"][0]["position"]["lon"]
         return GeoCoordinates(latitude, longitude)
