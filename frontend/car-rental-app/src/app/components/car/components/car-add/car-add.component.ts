@@ -2,7 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { CarService } from 'src/app/services/car/car.service';
+import { CarService } from '../../car.service';
+
 
 @UntilDestroy()
 @Component({

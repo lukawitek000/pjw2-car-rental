@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { OfferService } from 'src/app/services/offers/offer.service';
+import { OfferService } from '../../offer.service';
 
 @UntilDestroy()
 @Component({

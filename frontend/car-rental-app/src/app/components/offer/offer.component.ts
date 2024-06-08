@@ -2,7 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { OfferService } from 'src/app/services/offers/offer.service';
+import { OfferService } from './offer.service';
+
 @Component({
   selector: 'app-offer',
   templateUrl: './offer.component.html',

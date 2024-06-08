@@ -5,7 +5,7 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
-import { CarService } from "src/app/services/car/car.service";
+import { CarService } from "./car.service";
 
 @NgModule({
     declarations: [
