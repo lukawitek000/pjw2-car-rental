@@ -21,6 +21,7 @@
     <div class="flex content-start btns">
       <button *ngIf="!shouldRegister" (click)="onLogin()" class="btn">Login</button>
       <button *ngIf="shouldRegister" (click)="onRegister()" type="submit" class="btn">Register</button>
+      <button *ngIf="shouldRegister" (click)="onRegisterBack()" type="submit" class="btn">Go To Login</button>
     </div>
   </div>
 </div>

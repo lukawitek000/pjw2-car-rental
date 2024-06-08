@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { CarService } from './car.service';
 
 @Component({
   selector: 'app-car',
@@ -24,7 +25,8 @@ export class CarComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly carService: CarService
   ) { }
 
   ngOnInit(): void {

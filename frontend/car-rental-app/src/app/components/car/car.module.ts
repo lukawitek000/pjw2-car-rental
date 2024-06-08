@@ -6,11 +6,13 @@ import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { CarService } from "./car.service";
+import { OwnerCarComponent } from './owner-car/owner-car.component';
 
 @NgModule({
     declarations: [
         CarComponent,
-        CarAddComponent
+        CarAddComponent,
+        OwnerCarComponent
     ],
     imports: [
         CommonModule,

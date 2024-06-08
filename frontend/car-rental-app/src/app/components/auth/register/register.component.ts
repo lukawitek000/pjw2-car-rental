@@ -71,7 +71,13 @@ export class RegisterComponent {
 
   showLogin(res: any) {
     this.messageService.add({severity:'success', summary: 'KCHOW!!!', detail: `Welcome ${res.username}`});
-    this.redirectToOffers();
+    setTimeout(() => {
+      res.role === Role.CAR_OWNER ? this.redirectToOwnerCars() : this.redirectToOffers();
+    }, 500);
+  }
+
+  onRegisterBack() {
+    this.shouldRegister = !this.shouldRegister;
   }
 
   private determineCredentialsRole(credentials: any) {
@@ -91,5 +97,9 @@ export class RegisterComponent {
 
   private redirectToOffers() {
     this.router.navigate(['/offers']);
+  }
+
+  private redirectToOwnerCars() {
+    this.router.navigate(['/cars/owner']);
   }
 }
