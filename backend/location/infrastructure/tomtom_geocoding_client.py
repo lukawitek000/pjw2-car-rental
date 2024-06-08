@@ -2,6 +2,7 @@ import requests
 
 from location.domain.geo_coordinates import GeoCoordinates
 from location.domain.geocoding_client import GeocodingClient
+from location.domain.geocoding_exceptions import GeocodingRequestFailed, NoResultsFoundForAddressException
 
 
 class TomTomGeocodingClient(GeocodingClient):
@@ -16,7 +17,11 @@ class TomTomGeocodingClient(GeocodingClient):
         params = {"key": self.api_key}
         response = requests.get(complete_url, params=params)
         data = response.json()
+        if response.status_code != 200:
+            raise GeocodingRequestFailed(f"Request failed with status code {response.status_code}")
+
+        if not data["results"]:
+            raise NoResultsFoundForAddressException(address)
         latitude = data["results"][0]["position"]["lat"]
         longitude = data["results"][0]["position"]["lon"]
         return GeoCoordinates(latitude, longitude)
-

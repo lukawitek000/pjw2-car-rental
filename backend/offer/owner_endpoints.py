@@ -35,6 +35,10 @@ def add_offer(offer_service: OfferService, location_service: LocationService):
         owner_username = current_user.username
         offer_details['start_date_time'] = datetime.strptime(offer_details['start_date_time'], '%Y-%m-%dT%H:%M:%S')
         offer_details['end_date_time'] = datetime.strptime(offer_details['end_date_time'], '%Y-%m-%dT%H:%M:%S')
+        try:
+            pickup_location = location_service.get_coordinates(offer_details['pickup_location'])
+        except Exception as e:
+            return jsonify({"message": "Invalid pickup location"}), 400
         offer_id = offer_service.add_offer(offer_details, owner_username)
         return jsonify({"message": "Offer added successfully", "offer_id": offer_id}), 201
     except PermissionError as e:
