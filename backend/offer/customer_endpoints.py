@@ -3,6 +3,7 @@ from datetime import datetime
 
 from flask import Blueprint, jsonify, request
 
+from location.application.location_service import LocationService
 from offer.application.offer_service import OfferService
 from offer.domain.offer_filter_options import OfferFilterOptions
 from offer.domain.offer_sort_options import OfferSortOptions
@@ -16,12 +17,20 @@ def set_up_customer_endpoints(app):
 
 
 @customer_endpoints.route("/get_all_offers", methods=['GET'])
-def get_offers(offer_service: OfferService):
+def get_offers(offer_service: OfferService, location_service: LocationService):
     start_date_time = request.args.get('start_date_time', "2023-01-01T00:00:00")
     end_date_time = request.args.get('end_date_time', "2023-03-31T00:00:00")
     pickup_location = request.args.get('pickup_location')
     return_location = request.args.get('return_location')
     sort_by_price = request.args.get('sort_by_price')
+    try:
+        pickup_location_coordinates = location_service.find_coordinates_for_address(pickup_location)
+    except ValueError as e:
+        return jsonify({"message": "Wrong pick up location"}), 418
+    try:
+        return_location_coordinates = location_service.find_coordinates_for_address(return_location)
+    except ValueError as e:
+        return jsonify({"message": "Wrong return location"}), 418
 
     start_date_time = datetime.strptime(start_date_time, '%Y-%m-%dT%H:%M:%S') if start_date_time else None
     end_date_time = datetime.strptime(end_date_time, '%Y-%m-%dT%H:%M:%S') if end_date_time else None
