@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from offer.domain.car import Car
 from offer.domain.offer_repository import OfferRepository
 from offer.domain.offer_sort_options import SortByPrice
@@ -26,9 +28,9 @@ class SqliteOfferRepository(OfferRepository):
         query = OfferEntity.select()
 
         if filter_options.start_date_time is not None:
-            query = query.where(OfferEntity.start_date_time >= filter_options.start_date_time)
+            query = query.where(OfferEntity.start_date_time <= filter_options.start_date_time)
         if filter_options.end_date_time is not None:
-            query = query.where(OfferEntity.end_date_time <= filter_options.end_date_time)
+            query = query.where(OfferEntity.end_date_time >= filter_options.end_date_time)
         if filter_options.pickup_location is not None:
             query = query.where(OfferEntity.pickup == filter_options.pickup_location)
         if filter_options.return_location is not None:
