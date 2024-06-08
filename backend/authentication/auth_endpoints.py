@@ -1,11 +1,6 @@
-import os
-from datetime import datetime, timedelta
-
-import jwt
 from flask import Blueprint, request, jsonify, g
 
 from authentication.application.authentication_service import AuthenticationService, UserNotFoundException
-from authentication.auth_decorators import login_required
 from authentication.domain.role import Role
 from authentication.domain.user import User
 
