@@ -15,15 +15,16 @@ def set_up_customer_endpoints(app):
     app.register_blueprint(customer_endpoints)
 
 
-@customer_endpoints.route("/get_all_offers", methods=['GET'], defaults={'start_date_time': "2023-01-01T00:00:00", 'end_date_time': "2023-03-31T00:00:00", 'pickup_location': None, 'return_location': None, 'sort_by_price': None})
-@customer_endpoints.route("/get_all_offers/<string:start_date_time>", methods=['GET'], defaults={'end_date_time': "2023-03-31T00:00:00", 'pickup_location': None, 'return_location': None, 'sort_by_price': None})
-@customer_endpoints.route("/get_all_offers/<string:start_date_time>/<string:end_date_time>", methods=['GET'], defaults={'pickup_location': None, 'return_location': None, 'sort_by_price': None})
-@customer_endpoints.route("/get_all_offers/<string:start_date_time>/<string:end_date_time>/<string:pickup_location>", methods=['GET'], defaults={'return_location': None, 'sort_by_price': None})
-@customer_endpoints.route("/get_all_offers/<string:start_date_time>/<string:end_date_time>/<string:pickup_location>/<string:return_location>", methods=['GET'], defaults={'sort_by_price': None})
-@customer_endpoints.route("/get_all_offers/<string:start_date_time>/<string:end_date_time>/<string:pickup_location>/<string:return_location>/<string:sort_by_price>", methods=['GET'])
-def get_offers(offer_service: OfferService, start_date_time="2023-01-01T00:00:00", end_date_time="2023-03-31T00:00:00", pickup_location=None, return_location=None, sort_by_price=None):
-    start_date_time = datetime.strptime(start_date_time, '%Y-%m-%dT%H:%M:%S')
-    end_date_time = datetime.strptime(end_date_time, '%Y-%m-%dT%H:%M:%S')
+@customer_endpoints.route("/get_all_offers", methods=['GET'])
+def get_offers(offer_service: OfferService):
+    start_date_time = request.args.get('start_date_time', "2023-01-01T00:00:00")
+    end_date_time = request.args.get('end_date_time', "2023-03-31T00:00:00")
+    pickup_location = request.args.get('pickup_location')
+    return_location = request.args.get('return_location')
+    sort_by_price = request.args.get('sort_by_price')
+
+    start_date_time = datetime.strptime(start_date_time, '%Y-%m-%dT%H:%M:%S') if start_date_time else None
+    end_date_time = datetime.strptime(end_date_time, '%Y-%m-%dT%H:%M:%S') if end_date_time else None
 
     filter_options = OfferFilterOptions(start_date_time=start_date_time, end_date_time=end_date_time,
                                         pickup_location=pickup_location, return_location=return_location)
