@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { environment } from "src/environments/environment";
 import { UserService } from "./user.service";
 import { Router } from "@angular/router";
@@ -24,8 +24,7 @@ export class AuthService {
         return this.http.post(`${this.url}/login`, params)
         .pipe(
             tap((x: any) => {
-                this.userService.role.next(x.role);
-                this.userService.username.next(x.username);
+                this.userService.authorize(x.role, x.username);
             })
         );
     }
@@ -42,8 +41,7 @@ export class AuthService {
     }
 
     public logout() {
-        this.userService.role.next(null);
-        this.userService.username.next(null);
+        this.userService.authorize(null, null);
         this.router.navigate(['/']);
     }
 }

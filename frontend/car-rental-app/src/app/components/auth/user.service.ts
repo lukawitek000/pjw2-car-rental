@@ -5,8 +5,8 @@ import { BehaviorSubject } from "rxjs";
 export class UserService {
     constructor(  
     ) {}
-    public role = new BehaviorSubject<string|null>(null);
-    public username = new BehaviorSubject<string|null>(null);
+    private role = new BehaviorSubject<string|null>(null);
+    private username = new BehaviorSubject<string|null>(null);
 
     public authorize(role, username) {
         this.role.next(role);
