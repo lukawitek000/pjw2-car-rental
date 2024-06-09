@@ -74,7 +74,7 @@ export class OfferAddComponent extends BaseRouter implements OnInit {
   }
 
   private initializeCars() {
-    this.carService.getAllOwnerOffers()
+    this.carService.getAllOwnerCars()
     .pipe(
       untilDestroyed(this)
     )
