@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 
 from authentication.auth_decorators import car_owner_role_required
 from location.application.location_service import LocationService
+from location.domain.geocoding_exceptions import NoResultsFoundForAddressException, GeocodingRequestFailed
 from offer.application.offer_service import OfferService
 from offer.domain.invalid_offer_error import InvalidOfferError
 from offer.json_converter import offer_to_dict, car_to_dict
@@ -33,9 +34,14 @@ def add_offer(current_user, offer_service: OfferService, location_service: Locat
         offer_details['start_date_time'] = datetime.strptime(offer_details['start_date_time'], '%Y-%m-%dT%H:%M:%S')
         offer_details['end_date_time'] = datetime.strptime(offer_details['end_date_time'], '%Y-%m-%dT%H:%M:%S')
         try:
-            pickup_location = location_service.get_coordinates(offer_details['pickup_location'])
-        except Exception as e:
-            return jsonify({"message": "Invalid pickup location"}), 400
+            offer_details['pickup_location'] = location_service.find_coordinates_for_address(offer_details['pickup_location'])
+        except (NoResultsFoundForAddressException, GeocodingRequestFailed) as e:
+            return jsonify({"message": f"Wrong pick up location: {str(e)}"}), 418
+
+        try:
+            offer_details['return_location'] = location_service.find_coordinates_for_address(offer_details['return_location'])
+        except (NoResultsFoundForAddressException, GeocodingRequestFailed) as e:
+            return jsonify({"message": f"Wrong return location: {str(e)}"}), 418
         offer_id = offer_service.add_offer(offer_details, owner_username)
         return jsonify({"message": "Offer added successfully", "offer_id": offer_id}), 201
     except PermissionError as e:
