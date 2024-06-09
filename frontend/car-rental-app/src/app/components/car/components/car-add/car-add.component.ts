@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CarService } from '../../car.service';
@@ -11,7 +11,7 @@ import { CarService } from '../../car.service';
   templateUrl: './car-add.component.html',
   styleUrls: ['./car-add.component.scss']
 })
-export class CarAddComponent {
+export class CarAddComponent implements OnInit {
 
   public carForm = this.fb.group({
     car_id: [null, Validators.required],
@@ -30,6 +30,10 @@ export class CarAddComponent {
     private carService: CarService,
     private readonly datePipe: DatePipe
   ) { }
+
+  ngOnInit(): void {
+    this.carService.gatCarModels().subscribe(console.log)
+  }
 
   onCarAdd() {
     const timeFormat = 'yyyy-MM-ddTHH:mm:ss';

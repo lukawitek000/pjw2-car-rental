@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable() 
@@ -21,7 +21,6 @@ export class OfferService {
             headers: new HttpHeaders({'Content-Type': 'application/json'})
           }
 
-        console.log('getting')
         return this.http.get(`${this.url}/get_all_offers`, { params, headers: httpOptions.headers });
     }
 

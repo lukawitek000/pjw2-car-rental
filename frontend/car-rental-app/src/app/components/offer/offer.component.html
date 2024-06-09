@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="flex f-grow-2 offers-container content-around items-center">
-      <div *ngFor="let offer of (offers$ | async)" class="offer-card">
+      <div *ngFor="let offer of (offers$ | async)?.offers" class="offer-card">
         <h3>{{offer.car.car_make}} {{offer.car.car_model}} ({{offer.car.car_year}})</h3>
         <p><strong>Mileage:</strong> {{offer.car.mileage}} miles</p>
         <p><strong>Fuel Type:</strong> {{offer.car.fuel_type}}</p>

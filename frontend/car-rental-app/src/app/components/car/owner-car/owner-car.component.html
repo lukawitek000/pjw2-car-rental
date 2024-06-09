@@ -8,14 +8,14 @@
                 <li><a href="#">About</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Contact</a></li>
-                <li><button class="btn-search">Logout</button></li>
+                <button class="btn-search" (click)="onLogout()">Logout</button>
             </ul>
         </nav>
       </header>
-      <div class="search-container" [formGroup]="utilForm">
-        <input type="text" class="search-box" placeholder="Search cars..." formControlName="search"/>
-        <p-calendar placeholder="From Date" formControlName="fromDate"></p-calendar>
-        <p-calendar placeholder="To Date" formControlName="toDate"></p-calendar>
+      <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search cars..."/>
+        <p-calendar placeholder="From Date"></p-calendar>
+        <p-calendar placeholder="To Date"></p-calendar>
         <button class="btn-search">Search</button>
       </div>
     </div>
@@ -28,4 +28,4 @@
       </footer>
     </div>
     <router-outlet></router-outlet>
-  </div>
+</div>

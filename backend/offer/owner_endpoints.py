@@ -1,9 +1,8 @@
 from datetime import datetime
 
 from flask import Blueprint, request, jsonify
-from flask_login import login_required, current_user
 
-from authentication.auth_endpoints import car_owner_role_required
+from authentication.auth_decorators import car_owner_role_required
 from location.application.location_service import LocationService
 from offer.application.offer_service import OfferService
 from offer.domain.invalid_offer_error import InvalidOfferError
@@ -17,9 +16,8 @@ def set_up_owner_endpoints(app):
 
 
 @owner_operations.route("/add_car", methods=['POST'])
-@login_required
 @car_owner_role_required
-def add_car(offer_service: OfferService):
+def add_car(current_user, offer_service: OfferService):
     car_details = request.get_json()
     owner_username = current_user.username
     car_id = offer_service.add_car(car_details, owner_username)
@@ -27,9 +25,8 @@ def add_car(offer_service: OfferService):
 
 
 @owner_operations.route("/add_offer", methods=['POST'])
-@login_required
 @car_owner_role_required
-def add_offer(offer_service: OfferService, location_service: LocationService):
+def add_offer(current_user, offer_service: OfferService, location_service: LocationService):
     try:
         offer_details = request.get_json()
         owner_username = current_user.username
@@ -50,18 +47,16 @@ def add_offer(offer_service: OfferService, location_service: LocationService):
 
 
 @owner_operations.route("/get_all_offers_for_car/<int:param>", methods=['GET'])
-@login_required
 @car_owner_role_required
-def get_all_offers_for_car(offer_service: OfferService, param):
+def get_all_offers_for_car(current_user, offer_service: OfferService, param):
     offers = offer_service.get_all_offers_for_car(param)
     offers_dict = [offer_to_dict(offer) for offer in offers]
     return jsonify({"offers": offers_dict}), 200
 
 
 @owner_operations.route("/get_all_owned_cars", methods=['GET'])
-@login_required
 @car_owner_role_required
-def get_all_owned_cars(offer_service: OfferService):
+def get_all_owned_cars(current_user, offer_service: OfferService):
     cars = offer_service.get_all_owned_cars(current_user.username)
     cars_dict = [car_to_dict(car) for car in cars]
     return jsonify({"cars": cars_dict}), 200

@@ -6,6 +6,7 @@ import {ToastModule} from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from "primeng/api";
 import {InputSwitchModule} from 'primeng/inputswitch';
+import { UserService } from "./user.service";
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
     ],
     providers: [
         AuthService,
-        MessageService
+        MessageService,
+        UserService
     ]
   })
   export class AuthModule { }

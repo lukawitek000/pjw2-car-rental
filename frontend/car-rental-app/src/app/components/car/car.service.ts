@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -13,5 +13,18 @@ export class CarService {
 
     public addCar(request: any ) : Observable<any> {
         return this.http.post(`${this.url}/add_car`, request);
+    }
+
+    public gatCarModels() : Observable<any> {
+        return this.http.get(`${this.url}/car_models`);
+    }
+
+    public getAllOwnerOffers() {
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+               
+            withCredentials: true
+          }; 
+        return this.http.get(`${this.url}/get_all_owned_cars`, httpOptions);
     }
 }

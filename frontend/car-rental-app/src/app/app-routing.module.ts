@@ -6,6 +6,7 @@ import { OfferComponent } from './components/offer/offer.component';
 import { OfferAddComponent } from './components/offer/components/offer-add/offer-add.component';
 import { CarComponent } from './components/car/car.component';
 import { CarAddComponent } from './components/car/components/car-add/car-add.component';
+import { OwnerCarComponent } from './components/car/owner-car/owner-car.component';
 
 const routes: Routes = [
   { 
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'add',
         component: CarAddComponent
+      },
+      {
+        path: 'owner',
+        component: OwnerCarComponent
       }
     ]
   }
