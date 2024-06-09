@@ -6,6 +6,8 @@ import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { CarService } from "./car.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "../auth/auth.interceptor";
 
 @NgModule({
     declarations: [
@@ -24,7 +26,8 @@ import { CarService } from "./car.service";
     ],
     providers: [
         CarService,
-        DatePipe
+        DatePipe,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ]
   })
   export class CarModule { }

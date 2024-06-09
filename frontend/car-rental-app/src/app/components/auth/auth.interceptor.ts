@@ -10,7 +10,8 @@ export class AuthInterceptor implements HttpInterceptor {
     ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxIiwiZXhwIjoxNzE3OTM4MjcyfQ.d6rZYeZgaPhs21j4G9DXB4l-z2e9Ga-mDNbdrfaxEWI";
+    const token = this.userService.getToken();
+    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QxIiwiZXhwIjoxNzE3OTQwMjA3fQ.cg6dzBdCBznbQMHEMwuvBqZvF9DmXLQX8US1Ota9B2s";
     //this.userService.getToken();
     console.log('intercepting', token)
 

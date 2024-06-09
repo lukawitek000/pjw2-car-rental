@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OfferService } from '../../offer.service';
+import { AuthService } from 'src/app/components/auth/auth.service';
 
 @UntilDestroy()
 @Component({
@@ -23,6 +24,7 @@ export class OfferAddComponent {
   });
 
   constructor(
+    public readonly authService: AuthService,
     private readonly fb: FormBuilder,
     private readonly offerService: OfferService,
     private readonly datePipe: DatePipe

@@ -1,6 +1,4 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CarService } from './car.service';
 import { AuthService } from '../auth/auth.service';
@@ -15,21 +13,21 @@ export class CarComponent implements OnInit {
   public ownerCars$: Observable<any> | undefined;
 
   constructor(
-    private readonly carService: CarService,
-    private readonly authService: AuthService,
+    public readonly authService: AuthService,
+    private readonly carService: CarService
   ) { }
 
   ngOnInit(): void {
-    this.ownerCars$ = this.carService.getAllOwnerOffers();
+    this.getCars();
   }
 
   onDeleteCar(ownerCar: any) {
-    if (confirm(`Are you sure you want to delete ${ownerCar.car_make} ${ownerCar.car_model}?`)) {
-    }
+    this.carService.deleteCar(ownerCar.car_id).subscribe();
+    this.getCars();
   }
 
-  onLogout() {
-    this.authService.logout();
+  getCars() {
+    this.ownerCars$ = this.carService.getAllOwnerOffers();
   }
 }
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { OfferService } from './offer.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-offer',
@@ -23,7 +24,8 @@ export class OfferComponent implements OnInit {
   })
   
   constructor(
-    private offerService: OfferService,
+    public readonly authService: AuthService,
+    private readonly offerService: OfferService,
     private readonly fb: FormBuilder,
     private readonly datePipe: DatePipe
   ) { }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CarService } from '../../car.service';
+import { AuthService } from 'src/app/components/auth/auth.service';
 
 
 @UntilDestroy()
@@ -26,6 +27,7 @@ export class CarAddComponent implements OnInit {
 
 
   constructor(
+    public readonly authService: AuthService,
     private readonly fb: FormBuilder,
     private carService: CarService,
     private readonly datePipe: DatePipe

@@ -3,7 +3,7 @@ from datetime import datetime
 
 from flask import Blueprint, jsonify, request
 
-from authentication.auth_decorators import customer_role_required
+from authentication.auth_decorators import customer_role_required, login_required
 from offer.application.offer_service import OfferService
 from offer.domain.offer_filter_options import OfferFilterOptions
 from offer.domain.offer_sort_options import OfferSortOptions
@@ -17,7 +17,7 @@ def set_up_customer_endpoints(app):
 
 
 @customer_endpoints.route("/get_all_offers", methods=['GET'])
-@customer_role_required
+@login_required
 def get_offers(current_user, offer_service: OfferService):
     start_date_time = request.args.get('start_date_time', "2023-01-01T00:00:00")
     end_date_time = request.args.get('end_date_time', "2023-03-31T00:00:00")
