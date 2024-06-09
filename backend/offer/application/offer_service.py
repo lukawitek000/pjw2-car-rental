@@ -37,7 +37,9 @@ class OfferService:
         all_offers = self.offer_repository.get_all_offers(filter_options, sort_options)
         offer_filter = OfferFilterByLocation(all_offers, filter_options.pickup_location, filter_options.return_location,
                                              filter_options.radius_km)
-        return offer_filter.filter_offers()
+        offers_filtered = offer_filter.filter_offers()
+        offers_sorted = offer_filter.sort_offers_by_location(offers_filtered)
+        return offers_sorted
 
     def get_all_offers_for_car(self, car_id):
         return self.offer_repository.get_offers_by_car_id(car_id)

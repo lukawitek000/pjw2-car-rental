@@ -14,3 +14,8 @@ class OfferFilterByLocation:
                 offers_in_radius.append(offer)
 
         return offers_in_radius
+
+    def sort_offers_by_location(self, offers):
+        offers.sort(key=lambda offer: offer.pickup_location.distance_to(self.pickup_location) +
+                            offer.return_location.distance_to(self.return_location))
+        return offers
