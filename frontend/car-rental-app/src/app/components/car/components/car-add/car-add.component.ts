@@ -4,6 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CarService } from '../../car.service';
 import { AuthService } from 'src/app/components/auth/auth.service';
+import { BaseRouter } from 'src/app/base/base.router';
+import { Router } from '@angular/router';
 
 
 @UntilDestroy()
@@ -12,7 +14,7 @@ import { AuthService } from 'src/app/components/auth/auth.service';
   templateUrl: './car-add.component.html',
   styleUrls: ['./car-add.component.scss']
 })
-export class CarAddComponent implements OnInit {
+export class CarAddComponent extends BaseRouter implements OnInit {
 
   public carForm = this.fb.group({
     car_id: [null, Validators.required],
@@ -27,11 +29,14 @@ export class CarAddComponent implements OnInit {
 
 
   constructor(
-    public readonly authService: AuthService,
+    router: Router,
+    readonly authService: AuthService,
     private readonly fb: FormBuilder,
     private carService: CarService,
     private readonly datePipe: DatePipe
-  ) { }
+  ) { 
+    super(router); 
+  }
 
   ngOnInit(): void {
     this.carService.gatCarModels().subscribe(console.log)
