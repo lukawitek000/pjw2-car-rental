@@ -5,7 +5,6 @@ import jwt
 from jwt import DecodeError
 from werkzeug.security import check_password_hash, generate_password_hash
 from authentication.domain.user import User
-from authentication.infrastructure.user_entity import UserEntity
 
 
 class UserNotFoundException(Exception):
@@ -17,7 +16,6 @@ class AuthenticationService:
     __timeout_min = 30
     __encryption_algorithm = "HS256"
     __secret_key = os.getenv('SECRET_KEY')
-    __user_id_key_in_token = 'username'
 
     def __init__(self, user_repository):
         self.user_repository = user_repository
@@ -26,7 +24,7 @@ class AuthenticationService:
         if self.__verify_password(username, password):
             user = self.user_repository.find_by_username(username)
             token = jwt.encode({
-                self.__user_id_key_in_token: user.username,
+                'username': user.username,
                 'exp': datetime.utcnow() + timedelta(minutes=self.__timeout_min)
             }, self.__secret_key, algorithm=self.__encryption_algorithm)
             return user, token
@@ -40,7 +38,7 @@ class AuthenticationService:
     def find_user_by_jwt_token(self, token: str) -> User:
         try:
             data = jwt.decode(token, self.__secret_key, algorithms=[self.__encryption_algorithm])
-            current_user = self.user_repository.find_by_username(data[self.__user_id_key_in_token])
+            current_user = self.user_repository.find_by_username(data['username'])
             if not current_user:
                 raise Exception('User not found')
             return current_user
