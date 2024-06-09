@@ -7,14 +7,14 @@ from location.domain.geocoding_exceptions import GeocodingRequestFailed, NoResul
 
 class TomTomGeocodingClient(GeocodingClient):
 
-    base_url = "https://api.tomtom.com/search/2/geocode/"
+    __base_url = "https://api.tomtom.com/search/2/geocode/"
 
     def __init__(self, api_key):
-        self.api_key = api_key
+        self.__api_key = api_key
 
     def get_coordinates(self, address) -> GeoCoordinates:
-        complete_url = f"{self.base_url}{address}.json"
-        params = {"key": self.api_key}
+        complete_url = f"{self.__base_url}{address}.json"
+        params = {"key": self.__api_key}
         response = requests.get(complete_url, params=params)
         data = response.json()
         if response.status_code != 200:
