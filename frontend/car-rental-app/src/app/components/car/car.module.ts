@@ -6,13 +6,13 @@ import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { CarService } from "./car.service";
-import { OwnerCarComponent } from './owner-car/owner-car.component';
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "../auth/auth.interceptor";
 
 @NgModule({
     declarations: [
         CarComponent,
-        CarAddComponent,
-        OwnerCarComponent
+        CarAddComponent
     ],
     imports: [
         CommonModule,
@@ -26,7 +26,8 @@ import { OwnerCarComponent } from './owner-car/owner-car.component';
     ],
     providers: [
         CarService,
-        DatePipe
+        DatePipe,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ]
   })
   export class CarModule { }

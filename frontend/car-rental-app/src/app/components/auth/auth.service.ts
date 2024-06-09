@@ -8,14 +8,14 @@ import { Router } from "@angular/router";
 @Injectable() 
 export class AuthService {
     constructor(
+        public readonly userService: UserService,
         private http: HttpClient,
-        private readonly userService: UserService,
         private readonly router: Router
     ) {}
     
     private readonly url = environment.apiUrl;
 
-    public login(credentials: {username: any, password: any }) : Observable<any> {
+    login(credentials: {username: any, password: any }) : Observable<any> {
         const params = {
             username: credentials.username,
             password: credentials.password,
@@ -24,12 +24,12 @@ export class AuthService {
         return this.http.post(`${this.url}/login`, params)
         .pipe(
             tap((x: any) => {
-                this.userService.authorize(x.role, x.username);
+                this.userService.authorize(x.role, x.username, x.token);
             })
         );
     }
 
-    public register(credentials: {username: any, email: any, password: any, role: any}) : Observable<any> {
+    register(credentials: {username: any, email: any, password: any, role: any}) : Observable<any> {
         const params = {
             username: credentials.username,
             email: credentials.email,
@@ -40,8 +40,8 @@ export class AuthService {
         return this.http.post(`${this.url}/signup`, params);
     }
 
-    public logout() {
-        this.userService.authorize(null, null);
+    logout() {
+        this.userService.authorize(null, null, null);
         this.router.navigate(['/']);
     }
 }
