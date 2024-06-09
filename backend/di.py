@@ -8,7 +8,9 @@ from authentication.domain.user_repository import UserRepository
 from authentication.infrastructure.sqlite_user_repository import SqliteUserRepository
 from location.application.location_service import LocationService
 from location.domain.geocoding_client import GeocodingClient
+from location.domain.reverse_geocoding_client import ReverseGeocodingClient
 from location.infrastructure.tomtom_geocoding_client import TomTomGeocodingClient
+from location.infrastructure.tomtom_reverse_geocoding_client import TomTomReverseGeocodingClient
 from offer.application.offer_service import OfferService
 from offer.domain.offer_repository import OfferRepository
 from offer.infrastructure.sqlite_offer_repository import SqliteOfferRepository
@@ -30,11 +32,12 @@ def provide_user_repository() -> UserRepository:
 
 
 @inject
-def provide_location_service(geocoding_client: GeocodingClient) -> LocationService:
-    return LocationService(geocoding_client)
+def provide_location_service(geocoding_client: GeocodingClient, reverse_geocoding_client: ReverseGeocodingClient) -> LocationService:
+    return LocationService(geocoding_client, reverse_geocoding_client)
 
 
 def configure(binder: Binder):
+    api_key = os.getenv("TOMTOM_API_KEY")
     binder.bind(
         UserRepository,
         to=provide_user_repository,
@@ -57,7 +60,12 @@ def configure(binder: Binder):
     )
     binder.bind(
         GeocodingClient,
-        to=TomTomGeocodingClient(api_key=os.getenv("TOMTOM_API_KEY")),
+        to=TomTomGeocodingClient(api_key=api_key),
+        scope=singleton
+    )
+    binder.bind(
+        ReverseGeocodingClient,
+        to=TomTomReverseGeocodingClient(api_key=api_key),
         scope=singleton
     )
     binder.bind(

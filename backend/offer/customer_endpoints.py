@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 
 from location.application.location_service import LocationService
 from location.domain.geocoding_exceptions import NoResultsFoundForAddressException, GeocodingRequestFailed
-from authentication.auth_decorators import customer_role_required
+from authentication.auth_decorators import customer_role_required, login_required
 from offer.application.offer_service import OfferService
 from offer.domain.offer_filter_options import OfferFilterOptions
 from offer.domain.offer_sort_options import OfferSortOptions
@@ -18,19 +18,20 @@ def set_up_customer_endpoints(app):
 
 
 @customer_endpoints.route("/get_all_offers", methods=['GET'])
-@customer_role_required
-def get_offers(current_user, offer_service: OfferService, location_service: LocationService):
+@login_required
+def get_all_offers(current_user, offer_service: OfferService, location_service: LocationService):
     start_date_time = request.args.get('start_date_time', "2023-01-01T00:00:00")
     end_date_time = request.args.get('end_date_time', "2023-03-31T00:00:00")
     pickup_location = request.args.get('pickup_location')
     return_location = request.args.get('return_location')
     sort_by_price = request.args.get('sort_by_price')
+    radius = float(request.args.get('radius', 10.0))  # in km
     try:
-        pickup_location_coordinates = location_service.find_coordinates_for_address(pickup_location)
+        pickup_location = location_service.find_coordinates_for_address(pickup_location)
     except (NoResultsFoundForAddressException, GeocodingRequestFailed) as e:
         return jsonify({"message": f"Wrong pick up location: {str(e)}"}), 418
     try:
-        return_location_coordinates = location_service.find_coordinates_for_address(return_location)
+        return_location = location_service.find_coordinates_for_address(return_location)
     except ValueError as e:
         return jsonify({"message": f"Wrong return location: {str(e)}"}), 418
 
@@ -38,9 +39,15 @@ def get_offers(current_user, offer_service: OfferService, location_service: Loca
     end_date_time = datetime.strptime(end_date_time, '%Y-%m-%dT%H:%M:%S') if end_date_time else None
 
     filter_options = OfferFilterOptions(start_date_time=start_date_time, end_date_time=end_date_time,
-                                        pickup_location=pickup_location, return_location=return_location)
+                                        pickup_location=pickup_location, return_location=return_location,
+                                        radius_km=radius)
     sort_options = OfferSortOptions(sort_by_price=sort_by_price)
 
     offers = offer_service.get_all_offers(filter_options, sort_options)
-    offers_dict = [offer_to_dict(offer) for offer in offers]
+    offers_dict = []
+    for offer in offers:
+        offer_dict = offer_to_dict(offer)
+        offer_dict["pickup_location"] = location_service.find_address_for_coordinates(offer.pickup_location)
+        offer_dict["return_location"] = location_service.find_address_for_coordinates(offer.return_location)
+        offers_dict.append(offer_dict)
     return jsonify({"offers": offers_dict}), 200
