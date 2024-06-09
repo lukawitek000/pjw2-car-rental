@@ -29,10 +29,6 @@ class SqliteOfferRepository(OfferRepository):
             query = query.where(OfferEntity.start_date_time <= filter_options.start_date_time)
         if filter_options.end_date_time is not None:
             query = query.where(OfferEntity.end_date_time >= filter_options.end_date_time)
-        if filter_options.pickup_location is not None:
-            query = query.where(OfferEntity.pickup == filter_options.pickup_location)
-        if filter_options.return_location is not None:
-            query = query.where(OfferEntity.return_location == filter_options.return_location)
 
         if sort_options.sort_by_price is not None:
             if sort_options.sort_by_price == SortByPrice.FROM_LOWEST:
