@@ -29,9 +29,10 @@ export class AuthService {
         );
     }
 
-    register(credentials: {username: any, email: any, password: any, role: any}) : Observable<any> {
+    register(credentials: {username: any, name: any, email: any, password: any, role: any}) : Observable<any> {
         const params = {
             username: credentials.username,
+            name: credentials.name,
             email: credentials.email,
             password: credentials.password,
             role: credentials.role

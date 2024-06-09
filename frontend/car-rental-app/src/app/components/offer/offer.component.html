@@ -11,7 +11,7 @@
                 <button class="btn-search" (click)="authService.logout()">Logout</button>
             </ul>
             <ul *ngIf="authService.userService.isOwner()" class="nav-links">
-              <button class="btn-search" (click)="redirectToOffers()">Manage Offers</button>
+              <button class="btn-search" (click)="redirectToOffersAdd()">Add Offer</button>
               <button class="btn-search" (click)="redirectToOwnerCars()">Manage Cars</button>
               <button class="btn-search" (click)="authService.logout()">Logout</button>
           </ul>
