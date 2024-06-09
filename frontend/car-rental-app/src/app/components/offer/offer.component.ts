@@ -14,12 +14,12 @@ import { BaseRouter } from 'src/app/base/base.router';
 })
 export class OfferComponent extends BaseRouter implements OnInit {
   
-  public offers$: Observable<any> | undefined;
+  offers$: Observable<any> | undefined;
 
   private today = new Date();
   private twoWeeksFromToday = new Date(this.today.getTime() + (14 * 24 * 60 * 60 * 1000));
 
-  public utilForm = this.fb.group({
+  utilForm = this.fb.group({
     search: [''],
     fromDate: [this.today],
     toDate: [this.twoWeeksFromToday]

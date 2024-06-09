@@ -17,12 +17,32 @@
         <h2>Add a New Car</h2>
       </div>
       <div class="form-group">
-        <label for="carModel">Car Model:</label>
-        <input type="text" id="carModel" formControlName="car_model" required>
+        <label for="carMake">Car Make:</label>
+        <p-autoComplete 
+          id="carMake" 
+          formControlName="car_make" 
+          [suggestions]="filteredCarMakers"
+          field="name"
+          (completeMethod)="filterCarMakers($event)"
+          [dropdown]="true">
+          <ng-template let-carMaker pTemplate="item">
+            <div class="country-item">
+                <div>{{carMaker.name}}</div>
+            </div>
+        </ng-template>
+        </p-autoComplete>
       </div>
       <div class="form-group">
-        <label for="carMake">Car Make:</label>
-        <input type="text" id="carMake" formControlName="car_make" required>
+        <label for="carModel">Car Model:</label>
+        <p-autoComplete 
+          id="carModel" 
+          formControlName="car_model" 
+          [suggestions]="filteredModels"
+          [disabled]="!carForm.value.car_make"
+          (completeMethod)="filterCarModels($event)"
+          field="name" 
+          [dropdown]="true">
+        </p-autoComplete>
       </div>
       <div class="form-group">
         <label for="carYear">Car Year:</label>
@@ -54,3 +74,4 @@
     </footer>
   </div>
 </div>
+<p-toast></p-toast>

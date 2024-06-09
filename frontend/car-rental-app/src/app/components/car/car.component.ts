@@ -12,7 +12,7 @@ import { BaseRouter } from 'src/app/base/base.router';
 })
 export class CarComponent extends BaseRouter implements OnInit {
 
-  public ownerCars$: Observable<any> | undefined;
+  ownerCars$: Observable<any> | undefined;
 
   constructor(
     router: Router,

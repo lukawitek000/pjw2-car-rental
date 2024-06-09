@@ -8,6 +8,9 @@ import { CalendarModule } from "primeng/calendar";
 import { CarService } from "./car.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "../auth/auth.interceptor";
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastModule } from "primeng/toast";
 
 @NgModule({
     declarations: [
@@ -15,10 +18,13 @@ import { AuthInterceptor } from "../auth/auth.interceptor";
         CarAddComponent
     ],
     imports: [
+        AutoCompleteModule,
         CommonModule,
         RouterModule,
         CalendarModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToastModule,
+        BrowserAnimationsModule,
     ],
     exports: [
         CarComponent,

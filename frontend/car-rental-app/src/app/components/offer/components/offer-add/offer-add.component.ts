@@ -1,11 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OfferService } from '../../offer.service';
 import { AuthService } from 'src/app/components/auth/auth.service';
 import { BaseRouter } from 'src/app/base/base.router';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { CarService } from 'src/app/components/car/car.service';
 
 @UntilDestroy()
 @Component({
@@ -13,9 +15,11 @@ import { Router } from '@angular/router';
   templateUrl: './offer-add.component.html',
   styleUrls: ['./offer-add.component.scss']
 })
-export class OfferAddComponent extends BaseRouter {
+export class OfferAddComponent extends BaseRouter implements OnInit {
+  private cars = [];
+  filteredCars = [];
 
-  public offerForm = this.fb.group({
+  offerForm = this.fb.group({
     car_id: [null, Validators.required],
     price_per_day: [null, Validators.required],
     extra_features: [null, Validators.required],
@@ -30,15 +34,29 @@ export class OfferAddComponent extends BaseRouter {
     readonly authService: AuthService,
     private readonly fb: FormBuilder,
     private readonly offerService: OfferService,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly messageService: MessageService,
+    private carService: CarService,
   ) { 
     super(router);
+  }
+
+  ngOnInit(): void {
+    this.initializeCars();
+  }
+
+  filterCars(event) {
+    const query = event.query.toLowerCase();
+    this.filteredCars = this.cars.filter(car =>
+      car.name.toLowerCase().includes(query)
+    );
   }
 
   onOfferAdd() {
     const timeFormat = 'yyyy-MM-ddTHH:mm:ss';
     const request = {
       ...this.offerForm.getRawValue(),
+      car_id: this.offerForm.value.car_id.id,
       start_date_time: this.datePipe.transform(this.offerForm.value.start_date_time, timeFormat),
       end_date_time: this.datePipe.transform(this.offerForm.value.end_date_time, timeFormat)
     };
@@ -47,6 +65,28 @@ export class OfferAddComponent extends BaseRouter {
     .pipe(
       untilDestroyed(this)
     )
-    .subscribe()
+    .subscribe(() => {
+      this.messageService.add({severity:'success', summary: 'KCHOW!!!', detail: `Offer added succesfully`});
+      setTimeout(() => {
+        this.redirectToOffers();
+      }, 500);
+    })
+  }
+
+  private initializeCars() {
+    this.carService.getAllOwnerOffers()
+    .pipe(
+      untilDestroyed(this)
+    )
+    .subscribe((cars: any) => {
+      this.cars = cars.cars.map(c => {
+        return {
+          id: c.car_id,
+          name: `${c.car_make} ${c.car_model}`
+        }
+      })
+    })
+
+    this.filteredCars = this.cars;
   }
 }

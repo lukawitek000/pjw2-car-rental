@@ -8,6 +8,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { OfferService } from "./offer.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "../auth/auth.interceptor";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastModule } from "primeng/toast";
+import { AutoCompleteModule } from "primeng/autocomplete";
 
 @NgModule({
     declarations: [
@@ -19,6 +22,9 @@ import { AuthInterceptor } from "../auth/auth.interceptor";
         CalendarModule,
         RouterModule,
         ReactiveFormsModule,
+        ToastModule,
+        BrowserAnimationsModule,
+        AutoCompleteModule
     ],
     exports: [
         OfferComponent,

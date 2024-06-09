@@ -7,3 +7,9 @@
         }
     }
 }
+
+::ng-deep p-autocomplete {
+    .p-autocomplete {
+        width: 100% !important;
+    }
+}

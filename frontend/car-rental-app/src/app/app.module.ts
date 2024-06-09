@@ -18,7 +18,7 @@ import { CarModule } from './components/car/car.module';
     AuthModule,
     HttpClientModule,
     OfferModule,
-    CarModule
+    CarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -18,14 +18,14 @@ export enum Role {
 })
 export class RegisterComponent {
 
-  public userForm = this.fb.group({
+  userForm = this.fb.group({
     username: null,
     email: null,
     password: null,
     isCustomer: true
   })
 
-  public shouldRegister = false;
+  shouldRegister = false;
 
   constructor(
     private readonly authService: AuthService,

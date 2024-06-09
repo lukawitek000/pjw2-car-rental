@@ -17,8 +17,15 @@
         <h2>Add a New Offer</h2>
       </div>
       <div class="form-group">
-        <label for="car">Car:</label>
-        <input type="text" id="car" formControlName="car_id" required>
+        <label for="carModel">Car:</label>
+        <p-autoComplete 
+          id="carModel" 
+          formControlName="car_id" 
+          [suggestions]="filteredCars"
+          (completeMethod)="filterCars($event)"
+          field="name" 
+          [dropdown]="true">
+        </p-autoComplete>
       </div>
       <div class="form-group">
         <label for="price_per_day">Price per Day:</label>
@@ -53,3 +60,4 @@
     </footer>
   </div>
 </div>
+<p-toast></p-toast>

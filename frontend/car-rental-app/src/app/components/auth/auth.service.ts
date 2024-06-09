@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 @Injectable() 
 export class AuthService {
     constructor(
-        public readonly userService: UserService,
+        readonly userService: UserService,
         private http: HttpClient,
         private readonly router: Router
     ) {}
