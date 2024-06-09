@@ -11,7 +11,7 @@ import { CarService } from './car.service';
 })
 export class CarComponent implements OnInit {
 
-  public offers$: Observable<any> | undefined;
+  public cars$: Observable<any> | undefined;
 
   private today = new Date();
   private twoWeeksFromToday = new Date(this.today.getTime() + (14 * 24 * 60 * 60 * 1000));

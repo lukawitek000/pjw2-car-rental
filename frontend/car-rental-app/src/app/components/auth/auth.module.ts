@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from "primeng/api";
 import {InputSwitchModule} from 'primeng/inputswitch';
 import { UserService } from "./user.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "./auth.interceptor";
 
 @NgModule({
     declarations: [
@@ -25,7 +27,8 @@ import { UserService } from "./user.service";
     providers: [
         AuthService,
         MessageService,
-        UserService
+        UserService,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ]
   })
   export class AuthModule { }

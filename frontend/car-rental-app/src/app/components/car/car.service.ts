@@ -20,11 +20,6 @@ export class CarService {
     }
 
     public getAllOwnerOffers() {
-        const httpOptions = {
-            headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-               
-            withCredentials: true
-          }; 
-        return this.http.get(`${this.url}/get_all_owned_cars`, httpOptions);
+        return this.http.get(`${this.url}/get_all_owned_cars`);
     }
 }

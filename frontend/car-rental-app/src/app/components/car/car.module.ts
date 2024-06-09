@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { CarService } from "./car.service";
 import { OwnerCarComponent } from './owner-car/owner-car.component';
+import { ConfirmationService } from "primeng/api";
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { OwnerCarComponent } from './owner-car/owner-car.component';
     ],
     providers: [
         CarService,
-        DatePipe
+        DatePipe,
+        ConfirmationService
     ]
   })
   export class CarModule { }

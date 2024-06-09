@@ -24,7 +24,7 @@ export class AuthService {
         return this.http.post(`${this.url}/login`, params)
         .pipe(
             tap((x: any) => {
-                this.userService.authorize(x.role, x.username);
+                this.userService.authorize(x.role, x.username, x.token);
             })
         );
     }
@@ -41,7 +41,7 @@ export class AuthService {
     }
 
     public logout() {
-        this.userService.authorize(null, null);
+        this.userService.authorize(null, null, null);
         this.router.navigate(['/']);
     }
 }

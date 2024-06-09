@@ -126,15 +126,18 @@ input{
   background: #f8f8f8;
   border-bottom: 1px solid #ddd;
 }
+
 .search-box {
   flex: 1;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
 .p-calendar {
   width: 150px;
 }
+
 .btn-search {
   padding: 0.5rem 1rem;
   background: #333;
@@ -143,7 +146,15 @@ input{
   border-radius: 4px;
   cursor: pointer;
 }
+
 .btn-search:hover {
   background: #555;
 }
 
+.mt {
+  margin-top: 24px;
+}
+
+.ml {
+  margin-left: 24px;
+}

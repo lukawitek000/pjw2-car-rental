@@ -7,9 +7,15 @@ export class UserService {
     ) {}
     private role = new BehaviorSubject<string|null>(null);
     private username = new BehaviorSubject<string|null>(null);
+    private token = new BehaviorSubject<string|null>(null);
 
-    public authorize(role, username) {
+    public authorize(role, username, token) {
         this.role.next(role);
         this.username.next(username);
+        this.token.next(token);
+    }
+
+    public getToken() {
+        return this.token.value;
     }
 }
