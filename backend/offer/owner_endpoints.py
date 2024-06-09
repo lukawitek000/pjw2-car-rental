@@ -55,3 +55,13 @@ def get_all_owned_cars(current_user, offer_service: OfferService):
     cars = offer_service.get_all_owned_cars(current_user.username)
     cars_dict = [car_to_dict(car) for car in cars]
     return jsonify({"cars": cars_dict}), 200
+
+
+@owner_operations.route("/remove_car/<int:param>", methods=['DELETE'])
+@car_owner_role_required
+def remove_car_and_related_offers(current_user, offer_service: OfferService, param):
+    try:
+        offers = offer_service.delete_all_offers_for_car(param)
+        return jsonify({"message": "Car and related offers removed successfully"}), 201
+    except InvalidOfferError as e:
+        return jsonify({"message": str(e)}), 400
