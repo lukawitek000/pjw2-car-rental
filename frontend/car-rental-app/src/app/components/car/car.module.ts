@@ -6,14 +6,11 @@ import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng/calendar";
 import { CarService } from "./car.service";
-import { OwnerCarComponent } from './owner-car/owner-car.component';
-import { ConfirmationService } from "primeng/api";
 
 @NgModule({
     declarations: [
         CarComponent,
-        CarAddComponent,
-        OwnerCarComponent
+        CarAddComponent
     ],
     imports: [
         CommonModule,
@@ -27,8 +24,7 @@ import { ConfirmationService } from "primeng/api";
     ],
     providers: [
         CarService,
-        DatePipe,
-        ConfirmationService
+        DatePipe
     ]
   })
   export class CarModule { }
