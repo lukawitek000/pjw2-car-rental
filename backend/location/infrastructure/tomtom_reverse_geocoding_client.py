@@ -1,7 +1,7 @@
 import requests
 
 from location.domain.reverse_geocoding_client import ReverseGeocodingClient
-from location.domain.reverse_geocoding_exceptions import ReverseGeocodingFailedException
+from location.domain.reverse_geocoding_exceptions import ReverseGeocodingFailedException, NoResultsFoundForCoordinates
 
 
 class TomTomReverseGeocodingClient(ReverseGeocodingClient):
@@ -19,6 +19,6 @@ class TomTomReverseGeocodingClient(ReverseGeocodingClient):
         if response.status_code != 200:
             raise ReverseGeocodingFailedException(f"Request failed with status code {response.status_code}")
         if not data["addresses"]:
-            raise ReverseGeocodingFailedException(f"No results found for coordinates: {geo_coordinates}")
+            raise NoResultsFoundForCoordinates(f"No results found for coordinates: {geo_coordinates}")
         return data["addresses"][0]["address"]["freeformAddress"]
 
