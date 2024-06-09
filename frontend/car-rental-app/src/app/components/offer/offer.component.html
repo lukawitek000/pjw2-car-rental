@@ -3,12 +3,18 @@
       <header class="header">
         <nav class="navbar">
             <div class="logo">CarRental</div>
-            <ul class="nav-links">
+            <ul *ngIf="!authService.userService.isOwner()" class="nav-links">
                 <li><a href="#">Home</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Contact</a></li>
+                <button class="btn-search" (click)="authService.logout()">Logout</button>
             </ul>
+            <ul *ngIf="authService.userService.isOwner()" class="nav-links">
+              <button class="btn-search" (click)="redirectToOffersAdd()">Add Offer</button>
+              <button class="btn-search" (click)="redirectToOwnerCars()">Manage Cars</button>
+              <button class="btn-search" (click)="authService.logout()">Logout</button>
+          </ul>
         </nav>
       </header>
       <div class="search-container" [formGroup]="utilForm">

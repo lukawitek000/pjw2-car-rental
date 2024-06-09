@@ -11,20 +11,16 @@ export class OfferService {
     
     private readonly url = environment.apiUrl;
 
-    public getAllOffers(request: { search: string, fromDate: any, toDate: any }) : Observable<any> {
+    getAllOffers(request: { search: string, fromDate: any, toDate: any }) : Observable<any> {
         const params = new HttpParams()
         .set('filter', request.search)
         .set('start_date_time', request.fromDate)
         .set('end_date_time', request.toDate);
 
-        const httpOptions = {
-            headers: new HttpHeaders({'Content-Type': 'application/json'})
-          }
-
-        return this.http.get(`${this.url}/get_all_offers`, { params, headers: httpOptions.headers });
+        return this.http.get(`${this.url}/get_all_offers`, { params });
     }
 
-    public addOffer(request: any) : Observable<any> {
+    addOffer(request: any) : Observable<any> {
         return this.http.post(`${this.url}/add_offer`, request);
     }
 }

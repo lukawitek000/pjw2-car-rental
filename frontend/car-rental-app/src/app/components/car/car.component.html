@@ -1,31 +1,33 @@
 <div class="flex h-100 d-column layout">
-    <div class="w-100">
-      <header class="header">
-        <nav class="navbar">
-            <div class="logo">CarRental</div>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><button class="btn-search">Logout</button></li>
-            </ul>
-        </nav>
-      </header>
-      <div class="search-container" [formGroup]="utilForm">
-        <input type="text" class="search-box" placeholder="Search cars..." formControlName="search"/>
-        <p-calendar placeholder="From Date" formControlName="fromDate"></p-calendar>
-        <p-calendar placeholder="To Date" formControlName="toDate"></p-calendar>
-        <button class="btn-search">Search</button>
-      </div>
-    </div>
-    <div class="flex f-grow-2 offers-container content-around items-center">
-      
-    </div>
-    <div>
-      <footer class="footer">
-        <p>&copy; 2024 Car Rental. All rights reserved.</p>
-      </footer>
-    </div>
-    <router-outlet></router-outlet>
+  <div class="w-100">
+    <header class="header">
+      <nav class="navbar">
+          <div class="logo">CarRental</div>
+          <ul class="nav-links">
+            <button class="btn-search" (click)="redirectToOffers()">Manage Offers</button>
+            <button class="btn-search" (click)="redirectToOwnerCarsAdd()">Add Car</button>
+            <button class="btn-search" (click)="authService.logout()">Logout</button>
+          </ul>
+      </nav>
+    </header>
   </div>
+  <div class="flex f-grow-2 offers-container content-around items-center">
+    <div *ngFor="let ownerCar of (ownerCars$ | async)?.cars" class="offer-card">
+      <h3>{{ownerCar.car_make}} {{ownerCar.car_model}} ({{ownerCar.car_year}})</h3>
+      <p><strong>Mileage:</strong> {{ownerCar.mileage}} miles</p>
+      <p><strong>Fuel Type:</strong> {{ownerCar.fuel_type}}</p>
+      <p><strong>Transmission:</strong> {{ownerCar.transmission}}</p>
+      <p><strong>Additional Features:</strong> {{ownerCar.additional_features}}</p>
+      <p><strong>Car Year:</strong> {{ownerCar.car_year}}</p>
+        <div class="flex mt">
+          <button pButton type="button" label="Delete" class="p-button-danger" (click)="onDeleteCar(ownerCar)"></button>
+        </div>
+      </div>
+  </div>
+  <div>
+    <footer class="footer">
+      <p>&copy; 2024 Car Rental. All rights reserved.</p>
+    </footer>
+  </div>
+  <router-outlet></router-outlet>
+</div>

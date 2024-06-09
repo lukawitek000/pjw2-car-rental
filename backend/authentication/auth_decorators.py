@@ -15,10 +15,11 @@ class AuthenticationException(Exception):
 def retrieve_current_user():
     auth_service = g.get('auth_service')
     token = request.headers.get('Authorization')
-    token = token.split(" ")[1]
 
     if not token:
         raise AuthenticationException('Token is missing', 401)
+
+    token = token.split(" ")[1]
 
     try:
         current_user = auth_service.find_user_by_jwt_token(token)

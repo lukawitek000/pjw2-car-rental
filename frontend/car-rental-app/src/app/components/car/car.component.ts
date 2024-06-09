@@ -1,41 +1,38 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CarService } from './car.service';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { BaseRouter } from 'src/app/base/base.router';
 
 @Component({
   selector: 'app-car',
   templateUrl: './car.component.html',
   styleUrls: ['./car.component.scss']
 })
-export class CarComponent implements OnInit {
+export class CarComponent extends BaseRouter implements OnInit {
 
-  public cars$: Observable<any> | undefined;
-
-  private today = new Date();
-  private twoWeeksFromToday = new Date(this.today.getTime() + (14 * 24 * 60 * 60 * 1000));
-
-  public utilForm = this.fb.group({
-    search: [''],
-    fromDate: [this.today],
-    toDate: [this.twoWeeksFromToday]
-  })
-  
+  public ownerCars$: Observable<any> | undefined;
 
   constructor(
-    private readonly fb: FormBuilder,
-    private readonly datePipe: DatePipe,
+    router: Router,
+    readonly authService: AuthService,
     private readonly carService: CarService
-  ) { }
+  ) {
+    super(router); 
+  }
 
   ngOnInit(): void {
-    const timeFormat = 'yyyy-MM-ddTHH:mm:ss';
+    this.getCars();
+  }
 
-    const filters = {
-      search: this.utilForm.value.search,
-      fromDate: this.datePipe.transform(this.utilForm.value.fromDate, timeFormat),
-      toDate: this.datePipe.transform(this.utilForm.value.toDate, timeFormat)
-    };
+  onDeleteCar(ownerCar: any) {
+    this.carService.deleteCar(ownerCar.car_id).subscribe();
+    this.getCars();
+  }
+
+  getCars() {
+    this.ownerCars$ = this.carService.getAllOwnerOffers();
   }
 }
+

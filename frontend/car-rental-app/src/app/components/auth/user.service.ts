@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { Role } from "./register/register.component";
 
 @Injectable() 
 export class UserService {
@@ -9,13 +10,17 @@ export class UserService {
     private username = new BehaviorSubject<string|null>(null);
     private token = new BehaviorSubject<string|null>(null);
 
-    public authorize(role, username, token) {
+    authorize(role, username, token) {
         this.role.next(role);
         this.username.next(username);
         this.token.next(token);
     }
 
-    public getToken() {
+    getToken() {
         return this.token.value;
+    }
+
+    isOwner() {
+        return this.role.value === Role.CAR_OWNER;
     }
 }

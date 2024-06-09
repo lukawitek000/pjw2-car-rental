@@ -100,6 +100,6 @@ export class RegisterComponent {
   }
 
   private redirectToOwnerCars() {
-    this.router.navigate(['/cars/owner']);
+    this.router.navigate(['/cars']);
   }
 }

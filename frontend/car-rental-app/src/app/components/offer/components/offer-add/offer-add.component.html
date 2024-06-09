@@ -4,16 +4,15 @@
       <nav class="navbar">
         <div class="logo">CarRental</div>
         <ul class="nav-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Contact</a></li>
+          <button class="btn-search" (click)="redirectToOffers()">Manage Offers</button>
+          <button class="btn-search" (click)="redirectToOwnerCars()">Manage Cars</button>
+          <button class="btn-search" (click)="authService.logout()">Logout</button>
         </ul>
       </nav>
     </header>
   </div>
   <div class="flex f-grow-2">
-    <div class="add-offer-container flex content-between d-column" [formGroup]="offerForm">
+    <div class="add-container flex content-between d-column" [formGroup]="offerForm">
       <div>
         <h2>Add a New Offer</h2>
       </div>
@@ -45,7 +44,7 @@
         <label for="return_location">Return Location:</label>
         <input type="text" id="return_location" formControlName="return_location" required>
       </div>
-      <button type="submit" [disabled]="!offerForm.valid" (click)="onOfferAdd()">Add Offer</button>
+      <button class="add-button" type="submit" [disabled]="!offerForm.valid" (click)="onOfferAdd()">Add Offer</button>
     </div>
   </div>
   <div>

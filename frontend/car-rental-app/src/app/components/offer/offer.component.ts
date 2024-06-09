@@ -3,13 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { OfferService } from './offer.service';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { BaseRouter } from 'src/app/base/base.router';
 
 @Component({
   selector: 'app-offer',
   templateUrl: './offer.component.html',
   styleUrls: ['./offer.component.scss']
 })
-export class OfferComponent implements OnInit {
+export class OfferComponent extends BaseRouter implements OnInit {
   
   public offers$: Observable<any> | undefined;
 
@@ -23,10 +26,14 @@ export class OfferComponent implements OnInit {
   })
   
   constructor(
-    private offerService: OfferService,
+    router: Router,
+    readonly authService: AuthService,
+    private readonly offerService: OfferService,
     private readonly fb: FormBuilder,
     private readonly datePipe: DatePipe
-  ) { }
+  ) { 
+    super(router);
+  }
 
   ngOnInit(): void {
     this.onOffersGet();

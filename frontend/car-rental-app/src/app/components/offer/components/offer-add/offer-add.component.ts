@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OfferService } from '../../offer.service';
+import { AuthService } from 'src/app/components/auth/auth.service';
+import { BaseRouter } from 'src/app/base/base.router';
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -10,7 +13,7 @@ import { OfferService } from '../../offer.service';
   templateUrl: './offer-add.component.html',
   styleUrls: ['./offer-add.component.scss']
 })
-export class OfferAddComponent {
+export class OfferAddComponent extends BaseRouter {
 
   public offerForm = this.fb.group({
     car_id: [null, Validators.required],
@@ -23,10 +26,14 @@ export class OfferAddComponent {
   });
 
   constructor(
+    router: Router,
+    readonly authService: AuthService,
     private readonly fb: FormBuilder,
     private readonly offerService: OfferService,
     private readonly datePipe: DatePipe
-  ) { }
+  ) { 
+    super(router);
+  }
 
   onOfferAdd() {
     const timeFormat = 'yyyy-MM-ddTHH:mm:ss';
