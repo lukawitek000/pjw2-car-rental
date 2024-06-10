@@ -15,15 +15,15 @@ export class CarService {
         return this.http.post(`${this.url}/add_car`, request);
     }
 
-    getCarModels(): Observable<any> {
+    getCarModels(){
         return this.http.get(`${this.url}/car_models`);
     }
 
-    getAllOwnerOffers() {
+    getAllOwnerCars() {
         return this.http.get(`${this.url}/get_all_owned_cars`);
     }
 
    deleteCar(carId: number) {
-        return this.http.delete(`${this.url}/delete/${carId}`)
+        return this.http.delete(`${this.url}/remove_car/${carId}`)
     }
 }

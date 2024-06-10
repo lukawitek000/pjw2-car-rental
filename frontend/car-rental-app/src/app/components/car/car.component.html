@@ -11,8 +11,8 @@
       </nav>
     </header>
   </div>
-  <div class="flex f-grow-2 offers-container content-around items-center">
-    <div *ngFor="let ownerCar of (ownerCars$ | async)?.cars" class="offer-card">
+  <div class="flex f-grow-2 content-around items-center wrap overflow-y ">
+    <div *ngFor="let ownerCar of (ownerCars$ | async)?.cars" class="offer-card mt-2">
       <h3>{{ownerCar.car_make}} {{ownerCar.car_model}} ({{ownerCar.car_year}})</h3>
       <p><strong>Mileage:</strong> {{ownerCar.mileage}} miles</p>
       <p><strong>Fuel Type:</strong> {{ownerCar.fuel_type}}</p>
@@ -31,3 +31,4 @@
   </div>
   <router-outlet></router-outlet>
 </div>
+<p-toast></p-toast>

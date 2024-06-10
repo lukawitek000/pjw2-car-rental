@@ -11,16 +11,25 @@ export class OfferService {
     
     private readonly url = environment.apiUrl;
 
-    getAllOffers(request: { search: string, fromDate: any, toDate: any }) : Observable<any> {
+    getAllOffers(request: { search: string, fromDate: any, toDate: any }) {
         const params = new HttpParams()
-        .set('filter', request.search)
         .set('start_date_time', request.fromDate)
-        .set('end_date_time', request.toDate);
+        .set('end_date_time', request.toDate)
+        .set('pickup_location', request.search)
+        .set('return_location', request.search)
 
         return this.http.get(`${this.url}/get_all_offers`, { params });
     }
 
-    addOffer(request: any) : Observable<any> {
+    getAllOwnedOffers() {
+        return this.http.get(`${this.url}/get_all_owned_offers`);
+    }
+
+    addOffer(request: any) {
         return this.http.post(`${this.url}/add_offer`, request);
+    }
+
+    getSuggestedLocations(location: string) : Observable<any> {
+        return this.http.get(`${this.url}/autocomplete?query=${location}`);
     }
 }

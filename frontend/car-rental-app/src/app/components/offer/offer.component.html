@@ -18,14 +18,21 @@
         </nav>
       </header>
       <div class="search-container" [formGroup]="utilForm">
-        <input type="text" class="search-box" placeholder="Search offers..." formControlName="search"/>
+        <div class="f-1">
+            <p-autoComplete 
+              placeholder="Search location..."
+              formControlName="search" 
+              [suggestions]="filteredLocations$ | async" 
+              field="location">
+          </p-autoComplete>
+        </div>
         <p-calendar placeholder="From Date" formControlName="fromDate"></p-calendar>
         <p-calendar placeholder="To Date" formControlName="toDate"></p-calendar>
         <button class="btn-search" (click)="onOffersGet()">Search</button>
       </div>
     </div>
-    <div class="flex f-grow-2 offers-container content-around items-center">
-      <div *ngFor="let offer of (offers$ | async)?.offers" class="offer-card">
+    <div class="flex f-grow-2 content-around items-center wrap overflow-y">
+      <div *ngFor="let offer of (offers$ | async)?.offers" class="offer-card mt-2">
         <h3>{{offer.car.car_make}} {{offer.car.car_model}} ({{offer.car.car_year}})</h3>
         <p><strong>Mileage:</strong> {{offer.car.mileage}} miles</p>
         <p><strong>Fuel Type:</strong> {{offer.car.fuel_type}}</p>
