@@ -264,6 +264,7 @@ ul {
   width: 300px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 .offer-card h3 {
   margin-top: 0;
   font-size: 1.2rem;
@@ -333,4 +334,17 @@ ul {
 .add-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.mt-2 {
+  margin-top: 24px;
+}
+
+.overflow-y {
+  overflow-y: auto;
+  overflow-x: hidden;
 }

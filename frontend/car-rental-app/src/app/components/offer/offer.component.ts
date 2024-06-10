@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { OfferService } from './offer.service';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
@@ -13,8 +13,8 @@ import { BaseRouter } from 'src/app/base/base.router';
   styleUrls: ['./offer.component.scss']
 })
 export class OfferComponent extends BaseRouter implements OnInit {
-  
-  offers$: Observable<any> | undefined;
+  private offersSub$ = new BehaviorSubject<any>(null);
+  offers$ = this.offersSub$.asObservable();
 
   private today = new Date();
   private twoWeeksFromToday = new Date(this.today.getTime() + (14 * 24 * 60 * 60 * 1000));
@@ -39,6 +39,8 @@ export class OfferComponent extends BaseRouter implements OnInit {
     this.onOffersGet();
   }
 
+  
+
   onOffersGet(): void {
     const timeFormat = 'yyyy-MM-ddTHH:mm:ss';
 
@@ -48,6 +50,10 @@ export class OfferComponent extends BaseRouter implements OnInit {
       toDate: this.datePipe.transform(this.utilForm.value.toDate, timeFormat)
     };
 
-    this.offers$ = this.offerService.getAllOffers(filters);
+    this.offerService.getAllOffers(filters)
+    .pipe(
+      tap(offers => this.offersSub$.next(offers))
+    )
+    .subscribe();
   }
 }

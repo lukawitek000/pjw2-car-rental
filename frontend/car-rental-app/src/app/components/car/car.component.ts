@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, switchMap, tap } from 'rxjs';
 import { CarService } from './car.service';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
@@ -12,8 +12,8 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./car.component.scss']
 })
 export class CarComponent extends BaseRouter implements OnInit {
-
-  ownerCars$: Observable<any> | undefined;
+  private ownerCarsSub$ = new BehaviorSubject<any>(null);
+  ownerCars$ = this.ownerCarsSub$.asObservable();
 
   constructor(
     router: Router,
@@ -30,13 +30,22 @@ export class CarComponent extends BaseRouter implements OnInit {
   }
 
   onDeleteCar(ownerCar: any) {
-    this.carService.deleteCar(ownerCar.car_id).subscribe();
-    this.messageService.add({severity:'error', summary: 'Error', detail: `Car deleted succesfully`});
-    this.getCars();
+    this.carService.deleteCar(ownerCar.car_id)
+    .pipe(
+      switchMap(() => this.initializeCars())
+    ).subscribe(() => this.messageService.add({severity:'error', summary: 'KCHOW!', detail: `Car deleted succesfully`}));
   }
 
-  getCars() {
-    this.ownerCars$ = this.carService.getAllOwnerCars();
+  private getCars() {
+    this.initializeCars()
+    .subscribe();
+  }
+
+  private initializeCars() {
+    return this.carService.getAllOwnerCars()
+      .pipe(
+      tap(cars => this.ownerCarsSub$.next(cars)),
+    );
   }
 }
 
