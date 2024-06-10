@@ -56,9 +56,14 @@ def add_offer(current_user, offer_service: OfferService, location_service: Locat
 
 @owner_operations.route("/get_all_offers_for_car/<int:param>", methods=['GET'])
 @car_owner_role_required
-def get_all_offers_for_car(current_user, offer_service: OfferService, param):
+def get_all_offers_for_car(current_user, offer_service: OfferService, location_service: LocationService, param):
     offers = offer_service.get_all_offers_for_car(param)
-    offers_dict = [offer_to_dict(offer) for offer in offers]
+    offers_dict = []
+    for offer in offers:
+        offer_dict = offer_to_dict(offer)
+        offer_dict["pickup_location"] = location_service.find_address_for_coordinates(offer.pickup_location)
+        offer_dict["return_location"] = location_service.find_address_for_coordinates(offer.return_location)
+        offers_dict.append(offer_dict)
     return jsonify({"offers": offers_dict}), 200
 
 
