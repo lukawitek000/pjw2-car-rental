@@ -4,3 +4,16 @@
     background-position: right;
     cursor: pointer;
   }
+
+  ::ng-deep p-autocomplete {
+    span {
+        width: 100% !important;
+        input{
+            width: 100% !important;
+        }
+    }
+}
+
+.f-1 {
+  flex: 1;
+}

@@ -18,7 +18,14 @@
         </nav>
       </header>
       <div class="search-container" [formGroup]="utilForm">
-        <input type="text" class="search-box" placeholder="Search offers..." formControlName="search"/>
+        <div class="f-1">
+            <p-autoComplete 
+              placeholder="Search location..."
+              formControlName="search" 
+              [suggestions]="filteredLocations$ | async" 
+              field="location">
+          </p-autoComplete>
+        </div>
         <p-calendar placeholder="From Date" formControlName="fromDate"></p-calendar>
         <p-calendar placeholder="To Date" formControlName="toDate"></p-calendar>
         <button class="btn-search" (click)="onOffersGet()">Search</button>
