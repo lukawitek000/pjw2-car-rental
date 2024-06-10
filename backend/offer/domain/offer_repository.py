@@ -31,3 +31,7 @@ class OfferRepository(ABC):
     @abstractmethod
     def delete_offers_by_car_id(self, car_id):
         pass
+
+    @abstractmethod
+    def get_offers_by_owner_id(self, owner_id) -> list:
+        pass

@@ -51,3 +51,7 @@ class SqliteOfferRepository(OfferRepository):
     def delete_car_by_id(self, car_id):
         query = CarEntity.delete().where(CarEntity.car_id == car_id)
         query.execute()
+
+
+    def get_offers_by_owner_id(self, owner_id) -> list:
+        return [offer.to_domain_model() for offer in OfferEntity.select().where(OfferEntity.offerer_id == owner_id)]

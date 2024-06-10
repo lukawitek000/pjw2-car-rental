@@ -49,3 +49,6 @@ class OfferService:
 
     def delete_all_offers_for_car(self, car_id):
         return self.offer_repository.delete_offers_by_car_id(car_id)
+
+    def get_all_owned_offers(self, owner_id):
+        return self.offer_repository.get_offers_by_owner_id(owner_id)

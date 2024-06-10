@@ -9,6 +9,8 @@ from offer.application.offer_service import OfferService
 from offer.domain.invalid_offer_error import InvalidOfferError
 from offer.json_converter import offer_to_dict, car_to_dict
 
+from backend.location.application import location_service
+
 owner_operations = Blueprint('owner_operations', __name__)
 
 
@@ -76,3 +78,16 @@ def remove_car_and_related_offers(current_user, offer_service: OfferService, par
         return jsonify({"message": "Car and related offers removed successfully"}), 201
     except InvalidOfferError as e:
         return jsonify({"message": str(e)}), 400
+
+
+@owner_operations.route("/get_all_owned_offers", methods=['GET'])
+@car_owner_role_required
+def get_all_owned_offers(current_user, offer_service: OfferService, location_service: LocationService):
+    offers = offer_service.get_all_owned_offers(current_user.username)
+    offers_dict = []
+    for offer in offers:
+        offer_dict = offer_to_dict(offer)
+        offer_dict["pickup_location"] = location_service.find_address_for_coordinates(offer.pickup_location)
+        offer_dict["return_location"] = location_service.find_address_for_coordinates(offer.return_location)
+        offers_dict.append(offer_dict)
+    return jsonify({"offers": offers_dict}), 200
