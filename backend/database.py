@@ -8,7 +8,8 @@ def set_up_database():
     from authentication.infrastructure.user_entity import UserEntity
     from offer.infrastructure.car_entity import CarEntity
     from offer.infrastructure.offer_entity import OfferEntity
-    database.create_tables([UserEntity, OfferEntity, CarEntity], safe=True)
+    from reservation.infrastructure.reservation_entity import ReservationEntity
+    database.create_tables([UserEntity, OfferEntity, CarEntity, ReservationEntity], safe=True)
     if database.is_closed():
         database.connect()
 

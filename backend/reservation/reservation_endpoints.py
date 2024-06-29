@@ -5,14 +5,14 @@ from authentication.auth_decorators import login_required
 from reservation.application.reservation_service import ReservationService
 from offer.domain.invalid_offer_error import InvalidOfferError
 
-reservation_endpoints = Blueprint('reservation_endpoints', __name__)
+reservation_operations = Blueprint('reservation_endpoints', __name__)
 
 
 def set_up_reservation_endpoints(app):
-    app.register_blueprint(reservation_endpoints)
+    app.register_blueprint(reservation_operations)
 
 
-@reservation_endpoints.route("/make_reservation", methods=['POST'])
+@reservation_operations.route("/make_reservation", methods=['POST'])
 @login_required
 def make_reservation(current_user, reservation_service: ReservationService):
     try:
@@ -32,7 +32,7 @@ def make_reservation(current_user, reservation_service: ReservationService):
         return jsonify({"message": str(e)}), 400
 
 
-@reservation_endpoints.route("/my_reservations", methods=['GET'])
+@reservation_operations.route("/my_reservations", methods=['GET'])
 @login_required
 def get_my_reservations(current_user, reservation_service: ReservationService):
     reservations = reservation_service.get_reservations_by_user(current_user.id)
@@ -40,7 +40,7 @@ def get_my_reservations(current_user, reservation_service: ReservationService):
     return jsonify({"reservations": reservations_dict}), 200
 
 
-@reservation_endpoints.route("/cancel_reservation/<int:reservation_id>", methods=['DELETE'])
+@reservation_operations.route("/cancel_reservation/<int:reservation_id>", methods=['DELETE'])
 @login_required
 def cancel_reservation(current_user, reservation_service: ReservationService, reservation_id):
     try:

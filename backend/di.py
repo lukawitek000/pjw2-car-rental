@@ -16,6 +16,8 @@ from location.infrastructure.tomtom_search_client import TomTomSearchClient
 from offer.application.offer_service import OfferService
 from offer.domain.offer_repository import OfferRepository
 from offer.infrastructure.sqlite_offer_repository import SqliteOfferRepository
+from reservation.domain.reservation_repository import ReservationRepository
+from reservation.application.reservation_service import ReservationService
 
 
 @inject
@@ -37,6 +39,10 @@ def provide_user_repository() -> UserRepository:
 def provide_location_service(geocoding_client: GeocodingClient, reverse_geocoding_client: ReverseGeocodingClient,
                              search_client: SearchClient) -> LocationService:
     return LocationService(geocoding_client, reverse_geocoding_client, search_client)
+
+@inject
+def provide_reservation_service(reservation_repository: ReservationRepository, offer_repository: OfferRepository, user_repository: UserRepository) -> ReservationService:
+    return ReservationService(reservation_repository, offer_repository, user_repository)
 
 
 def configure(binder: Binder):

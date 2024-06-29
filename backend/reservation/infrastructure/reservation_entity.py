@@ -1,11 +1,12 @@
 from peewee import *
 
+from database import BaseModel
 from offer.infrastructure.offer_entity import OfferEntity
 from authentication.infrastructure.user_entity import UserEntity
 from reservation.domain.reservation import Reservation
 
 
-class ReservationEntity(Model):
+class ReservationEntity(BaseModel):
     reservation_id = AutoField()
     user_id = ForeignKeyField(UserEntity, backref='reservations', to_field='username')
     offer = ForeignKeyField(OfferEntity, backref='reservations', to_field='offer_id')

@@ -13,6 +13,7 @@ from database import set_up_database
 from location.location_endpoints import set_up_location_endpoints
 from offer.customer_endpoints import set_up_customer_endpoints
 from offer.owner_endpoints import set_up_owner_endpoints
+from reservation.reservation_endpoints import set_up_reservation_endpoints
 
 app = Flask(__name__)
 load_dotenv()
@@ -32,5 +33,6 @@ if __name__ == '__main__':  # Running the flask app
     set_up_customer_endpoints(app)
     set_up_auth(app)
     set_up_location_endpoints(app)
+    set_up_reservation_endpoints(app)
     init_di(app)
     app.run(host='127.0.0.1', port=8000, debug=True)
