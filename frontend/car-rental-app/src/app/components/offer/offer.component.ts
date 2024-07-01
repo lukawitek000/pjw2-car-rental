@@ -6,6 +6,8 @@ import { OfferService } from './offer.service';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { BaseRouter } from 'src/app/base/base.router';
+import { UserService } from '../auth/user.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-offer',
@@ -20,6 +22,7 @@ export class OfferComponent extends BaseRouter implements OnInit {
 
   private today = new Date();
   private twoWeeksFromToday = new Date(this.today.getTime() + (14 * 24 * 60 * 60 * 1000));
+  private readonly timeFormat = 'yyyy-MM-ddTHH:mm:ss';
 
   utilForm = this.fb.group({
     search: [''],
@@ -30,9 +33,11 @@ export class OfferComponent extends BaseRouter implements OnInit {
   constructor(
     router: Router,
     readonly authService: AuthService,
+    readonly userService: UserService,
     private readonly offerService: OfferService,
     private readonly fb: FormBuilder,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly messageService: MessageService,
   ) { 
     super(router);
   }
@@ -55,12 +60,10 @@ export class OfferComponent extends BaseRouter implements OnInit {
   }
 
   onOffersGet(): void {
-    const timeFormat = 'yyyy-MM-ddTHH:mm:ss';
-
     const filters = {
       search: this.utilForm.value.search,
-      fromDate: this.datePipe.transform(this.utilForm.value.fromDate, timeFormat),
-      toDate: this.datePipe.transform(this.utilForm.value.toDate, timeFormat)
+      fromDate: this.datePipe.transform(this.utilForm.value.fromDate, this.timeFormat),
+      toDate: this.datePipe.transform(this.utilForm.value.toDate, this.timeFormat)
     };
 
     this.offerService.getAllOffers(filters)
@@ -68,5 +71,24 @@ export class OfferComponent extends BaseRouter implements OnInit {
       tap(offers => this.offersSub$.next(offers))
     )
     .subscribe();
+  }
+
+  onReserve(offer) {
+    const request = {
+      user_id: this.userService.getCurrentUser(),
+      offer_id: offer.offer_id,
+      start_date_time: this.datePipe.transform(offer.start_date_time, this.timeFormat),
+      end_date_time: this.datePipe.transform(offer.end_date_time, this.timeFormat)
+    }
+    this.offerService.makeReservation(request).subscribe(() => {
+      this.messageService.add({severity:'success', summary: 'KCHOW!!!', detail: `Reservation made succesfully!`});
+      setTimeout(() => {
+        this.redirectToReservations();
+      }, 500);
+    })
+  }
+  
+  redirectToReservations() {
+    this.router.navigate(['/reservations']);
   }
 }

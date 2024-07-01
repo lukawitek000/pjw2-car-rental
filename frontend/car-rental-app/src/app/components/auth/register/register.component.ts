@@ -20,6 +20,7 @@ export class RegisterComponent {
 
   userForm = this.fb.group({
     username: null,
+    name: null,
     email: null,
     password: null,
     isCustomer: true
@@ -53,6 +54,7 @@ export class RegisterComponent {
   onRegister() {
     const credentials = {
       username: this.userForm.value.username,
+      name: this.userForm.value.name,
       email: this.userForm.value.email,
       password: this.userForm.value.password,
     }
@@ -65,7 +67,7 @@ export class RegisterComponent {
   }
 
   showError(err: any) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: `${err.error.message}, you need to register`});
+    this.messageService.add({severity:'error', summary: 'Error', detail: `${err.error.message}, You need to register`});
     this.shouldRegister = true;
   }
 

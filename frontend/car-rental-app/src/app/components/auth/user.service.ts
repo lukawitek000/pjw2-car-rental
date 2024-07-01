@@ -23,4 +23,8 @@ export class UserService {
     isOwner() {
         return this.role.value === Role.CAR_OWNER;
     }
+
+    getCurrentUser() {
+        return this.username.value;
+    }
 }

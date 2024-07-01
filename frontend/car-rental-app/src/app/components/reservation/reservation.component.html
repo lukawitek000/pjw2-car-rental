@@ -1,0 +1,34 @@
+<div class="flex h-100 d-column layout">
+    <div class="w-100">
+      <header class="header">
+        <nav class="navbar">
+          <div class="logo">CarRental</div>
+          <ul class="nav-links">
+            <button class="btn-search" (click)="redirectToOffers()">Go to offers</button>
+            <button class="btn-search" (click)="authService.logout()">Logout</button>
+          </ul>
+        </nav>
+      </header>
+      <div class="reservation-container">
+        <h2>My Reservations</h2>
+        <div class="flex f-grow-2 content-around items-center wrap overflow-y">
+          <div *ngFor="let reservation of reservations$ | async" class="reservation-card mt-2">
+            <h3>{{reservation.car.car_make}} {{reservation.car.car_model}} ({{reservation.car.car_year}})</h3>
+            <p><strong>Reservation ID:</strong> {{reservation.id}}</p>
+            <p><strong>Pickup Location:</strong> {{reservation.pickup_location}}</p>
+            <p><strong>Return Location:</strong> {{reservation.return_location}}</p>
+            <p><strong>Pickup Date:</strong> {{reservation.pickup_date | date:'longDate'}}</p>
+            <p><strong>Return Date:</strong> {{reservation.return_date | date:'longDate'}}</p>
+            <p><strong>Total Price:</strong> ${{reservation.total_price}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <footer class="footer">
+        <p>&copy; 2024 Car Rental. All rights reserved.</p>
+      </footer>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+  
