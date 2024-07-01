@@ -13,7 +13,7 @@ class ReservationRepository(ABC):
         pass
 
     @abstractmethod
-    def get_reservations_by_user_id(self, user_id: int) -> list:
+    def get_reservations_by_user(self, user_id: int) -> list:
         pass
 
     @abstractmethod

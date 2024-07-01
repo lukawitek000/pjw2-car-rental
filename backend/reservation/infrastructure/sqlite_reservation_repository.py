@@ -11,7 +11,7 @@ class SqliteReservationRepository(ReservationRepository):
     def get_reservations_by_offer_id(self, offer_id: int) -> list:
         return [reservation.to_domain_model() for reservation in ReservationEntity.select().where(ReservationEntity.offer_id == offer_id)]
 
-    def get_reservations_by_user_id(self, user_id: int) -> list:
+    def get_reservations_by_user(self, user_id: int) -> list:
         return [reservation.to_domain_model() for reservation in ReservationEntity.select().where(ReservationEntity.user_id == user_id)]
 
     def delete_reservation(self, reservation_id: int):

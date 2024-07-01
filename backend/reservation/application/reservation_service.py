@@ -30,7 +30,7 @@ class ReservationService:
         return reservation.reservation_id
 
     def get_reservations_by_user(self, user_id):
-        return self.offer_repository[0].get_reservations_by_user_id(user_id)
+        return self.reservation_repository[0].get_reservations_by_user(user_id)
 
     def cancel_reservation(self, reservation_id):
-        self.reservation_repository[0].delete_reservaton(reservation_id)
+        return self.reservation_repository[0].delete_reservation(reservation_id)
