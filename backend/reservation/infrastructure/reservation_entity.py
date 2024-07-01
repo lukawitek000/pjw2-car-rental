@@ -25,7 +25,7 @@ class ReservationEntity(BaseModel):
     def to_domain_model(self):
         return Reservation(
             user_id=self.user_id,
-            offer_id=self.offer.to_domain_model(),
+            offer_id=self.offer_id,
             start_date_time=self.start_date_time,
             end_date_time=self.end_date_time,
             reservation_id=self.reservation_id

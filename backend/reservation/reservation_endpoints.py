@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from authentication.auth_decorators import login_required
 from reservation.application.reservation_service import ReservationService
 from offer.domain.invalid_offer_error import InvalidOfferError
+from reservation.json_converter import reservation_to_dict
 
 reservation_operations = Blueprint('reservation_operations', __name__)
 
