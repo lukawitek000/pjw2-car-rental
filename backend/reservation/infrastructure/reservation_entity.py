@@ -8,16 +8,16 @@ from reservation.domain.reservation import Reservation
 
 class ReservationEntity(BaseModel):
     reservation_id = AutoField()
-    user_id = ForeignKeyField(UserEntity, backref='reservations', to_field='username')
+    user = ForeignKeyField(UserEntity, backref='reservations', to_field='username')
     offer = ForeignKeyField(OfferEntity, backref='reservations', to_field='offer_id')
     start_date_time = DateTimeField()
     end_date_time = DateTimeField()
 
     @classmethod
-    def from_domain_model(reservation):
+    def from_domain_model(cls, reservation: Reservation):
         return ReservationEntity(
             user=UserEntity.get(UserEntity.username == reservation.user_id),
-            offer=OfferEntity.get(OfferEntity.offer_id == reservation.offer.offer_id),
+            offer=OfferEntity.get(OfferEntity.offer_id == reservation.offer_id),
             start_date_time=reservation.start_date_time,
             end_date_time=reservation.end_date_time
         )
