@@ -5,7 +5,7 @@ from authentication.auth_decorators import login_required
 from reservation.application.reservation_service import ReservationService
 from offer.domain.invalid_offer_error import InvalidOfferError
 
-reservation_operations = Blueprint('reservation_endpoints', __name__)
+reservation_operations = Blueprint('reservation_operations', __name__)
 
 
 def set_up_reservation_endpoints(app):
@@ -21,8 +21,7 @@ def make_reservation(current_user, reservation_service: ReservationService):
                                                                    '%Y-%m-%dT%H:%M:%S')
         reservation_details['end_date_time'] = datetime.strptime(reservation_details['end_date_time'],
                                                                  '%Y-%m-%dT%H:%M:%S')
-
-        reservation_id = reservation_service.make_reservation(reservation_details, current_user.id)
+        reservation_id = reservation_service.make_reservation(reservation_details, current_user.username)
         return jsonify({"message": "Reservation made successfully", "reservation_id": reservation_id}), 201
     except PermissionError as e:
         return jsonify({"message": str(e)}), 403

@@ -18,6 +18,7 @@ from offer.domain.offer_repository import OfferRepository
 from offer.infrastructure.sqlite_offer_repository import SqliteOfferRepository
 from reservation.domain.reservation_repository import ReservationRepository
 from reservation.application.reservation_service import ReservationService
+from reservation.infrastructure.sqlite_reservation_repository import SqliteReservationRepository
 
 
 @inject
@@ -40,8 +41,10 @@ def provide_location_service(geocoding_client: GeocodingClient, reverse_geocodin
                              search_client: SearchClient) -> LocationService:
     return LocationService(geocoding_client, reverse_geocoding_client, search_client)
 
+
 @inject
-def provide_reservation_service(reservation_repository: ReservationRepository, offer_repository: OfferRepository, user_repository: UserRepository) -> ReservationService:
+def provide_reservation_service(reservation_repository: ReservationRepository, offer_repository: OfferRepository,
+                                user_repository: UserRepository) -> ReservationService:
     return ReservationService(reservation_repository, offer_repository, user_repository)
 
 
@@ -85,6 +88,16 @@ def configure(binder: Binder):
     binder.bind(
         LocationService,
         to=provide_location_service,
+        scope=singleton
+    )
+    binder.bind(
+        ReservationRepository,
+        to=SqliteReservationRepository(),
+        scope=singleton
+    )
+    binder.bind(
+        ReservationService,
+        to=provide_reservation_service,
         scope=singleton
     )
 
