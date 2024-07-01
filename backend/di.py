@@ -91,13 +91,13 @@ def configure(binder: Binder):
         scope=singleton
     )
     binder.bind(
-        ReservationRepository,
-        to=SqliteReservationRepository(),
+        ReservationService,
+        to=provide_reservation_service,
         scope=singleton
     )
     binder.bind(
-        ReservationService,
-        to=provide_reservation_service,
+        ReservationRepository,
+        to=SqliteReservationRepository(),
         scope=singleton
     )
 

@@ -34,7 +34,7 @@ def make_reservation(current_user, reservation_service: ReservationService):
 @reservation_operations.route("/my_reservations", methods=['GET'])
 @login_required
 def get_my_reservations(current_user, reservation_service: ReservationService):
-    reservations = reservation_service.get_reservations_by_user(current_user.id)
+    reservations = reservation_service.get_reservations_by_user(current_user.username)
     reservations_dict = [reservation_to_dict(reservation) for reservation in reservations]
     return jsonify({"reservations": reservations_dict}), 200
 
