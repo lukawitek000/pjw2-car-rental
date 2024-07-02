@@ -37,7 +37,7 @@ export class OfferService {
         return this.http.post(`${this.url}/make_reservation`, request);
     }
 
-    getReservations(userId) {
+    getReservations(userId): Observable<any> {
         const params = new HttpParams()
         .set('user_id', userId)
 

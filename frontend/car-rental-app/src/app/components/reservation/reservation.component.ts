@@ -27,7 +27,7 @@ export class ReservationComponent extends BaseRouter implements OnInit {
   ngOnInit(): void {
     this.offerService.getReservations(this.userService.getCurrentUser())
     .pipe(
-      tap((reservations) => this.reservationsSub$.next(reservations))
+      tap((res) => this.reservationsSub$.next(res.reservations))
     )
     .subscribe();
   }
