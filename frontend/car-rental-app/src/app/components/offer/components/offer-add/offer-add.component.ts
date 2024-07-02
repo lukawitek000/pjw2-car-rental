@@ -8,6 +8,7 @@ import { BaseRouter } from 'src/app/base/base.router';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { CarService } from 'src/app/components/car/car.service';
+import { Observable, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -16,6 +17,8 @@ import { CarService } from 'src/app/components/car/car.service';
   styleUrls: ['./offer-add.component.scss']
 })
 export class OfferAddComponent extends BaseRouter implements OnInit {
+  filteredPickupLocations$: Observable<any>;
+  filteredReturnedLocations$: Observable<any>;
   private cars = [];
   filteredCars = [];
 
@@ -43,6 +46,34 @@ export class OfferAddComponent extends BaseRouter implements OnInit {
 
   ngOnInit(): void {
     this.initializeCars();
+    this.assignPickupLocationSubscription();
+    this.assignReturnLocationSubscription();
+  }
+
+  private assignReturnLocationSubscription() {
+    this.filteredReturnedLocations$ = this.offerForm.get('return_location').valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(query => this.offerService.getSuggestedLocations(query)),
+      map(location => location.suggestions.map(l => {
+        return {
+          location: l
+        };
+      }))
+    );
+  }
+
+  private assignPickupLocationSubscription() {
+    this.filteredPickupLocations$ = this.offerForm.get('pickup_location').valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(query => this.offerService.getSuggestedLocations(query)),
+      map(location => location.suggestions.map(l => {
+        return {
+          location: l
+        };
+      }))
+    );
   }
 
   filterCars(event) {

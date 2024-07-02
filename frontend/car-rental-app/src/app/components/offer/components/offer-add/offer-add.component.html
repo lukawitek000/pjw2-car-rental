@@ -45,11 +45,19 @@
       </div>
       <div class="form-group">
         <label for="pickup_location">Pickup Location:</label>
-        <input type="text" id="pickup_location" formControlName="pickup_location" required>
+        <p-autoComplete 
+              formControlName="pickup_location" 
+              [suggestions]="filteredPickupLocations$ | async" 
+              field="location">
+        </p-autoComplete>
       </div>
       <div class="form-group">
         <label for="return_location">Return Location:</label>
-        <input type="text" id="return_location" formControlName="return_location" required>
+        <p-autoComplete 
+              formControlName="return_location" 
+              [suggestions]="filteredReturnedLocations$ | async" 
+              field="location">
+        </p-autoComplete>
       </div>
       <button class="add-button" type="submit" [disabled]="!offerForm.valid" (click)="onOfferAdd()">Add Offer</button>
     </div>

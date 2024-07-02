@@ -67,7 +67,7 @@ export class RegisterComponent {
   }
 
   showError(err: any) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: `${err.error.message}, You need to register`});
+    this.messageService.add({severity:'error', summary: 'Error', detail: `${err.error.message} You need to register`});
     this.shouldRegister = true;
   }
 
