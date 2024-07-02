@@ -32,7 +32,7 @@ class ReservationService:
     def get_reservations_by_user(self, user_id):
         reservations = self.reservation_repository[0].get_reservations_by_user(user_id)
         for reservation in reservations:
-            offer = self.offer_repository[0].get_offer(reservation.offer_id)
+            offer = self.offer_repository[0].get_offer_by_id(reservation.offer_id)
             reservation.car = offer.car
         return reservations
 

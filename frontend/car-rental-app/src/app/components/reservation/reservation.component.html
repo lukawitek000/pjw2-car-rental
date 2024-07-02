@@ -14,6 +14,13 @@
       <div *ngFor="let reservation of reservations$ | async" class="offer-card mt-2">
         <p><strong>Pickup Date:</strong> {{reservation.start_date_time | date:'longDate'}}</p>
         <p><strong>Return Date:</strong> {{reservation.end_date_time | date:'longDate'}}</p>
+        <p><strong>Car Make:</strong> {{reservation.car.car_make}}</p>
+        <p><strong>Car Model:</strong> {{reservation.car.car_model}}</p>
+        <p><strong>Car Year:</strong> {{reservation.car.car_year}}</p>
+        <p><strong>Fuel Type:</strong> {{reservation.car.fuel_type}}</p>
+        <p><strong>Mileage:</strong> {{reservation.car.mileage}} miles</p>
+        <p><strong>Transmission:</strong> {{reservation.car.transmission}}</p>
+        <p><strong>Additional Features:</strong> {{reservation.car.additional_features}}</p>
       </div>
     </div>
     <div>
