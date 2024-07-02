@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from offer.domain.car import Car
+from offer.domain.offer import Offer
 
 
 class OfferRepository(ABC):
@@ -34,4 +35,8 @@ class OfferRepository(ABC):
 
     @abstractmethod
     def get_offers_by_owner_id(self, owner_id) -> list:
+        pass
+
+    @abstractmethod
+    def get_offer_by_id(self, offer_id) -> Offer:
         pass

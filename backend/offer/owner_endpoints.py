@@ -9,8 +9,6 @@ from offer.application.offer_service import OfferService
 from offer.domain.invalid_offer_error import InvalidOfferError
 from offer.json_converter import offer_to_dict, car_to_dict
 
-from backend.location.application import location_service
-
 owner_operations = Blueprint('owner_operations', __name__)
 
 
