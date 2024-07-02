@@ -3,6 +3,7 @@ from offer.domain.offer_repository import OfferRepository
 from offer.domain.offer_sort_options import SortByPrice
 from offer.infrastructure.car_entity import CarEntity
 from offer.infrastructure.offer_entity import OfferEntity
+from offer.domain.offer import Offer
 
 
 class SqliteOfferRepository(OfferRepository):
@@ -55,3 +56,9 @@ class SqliteOfferRepository(OfferRepository):
 
     def get_offers_by_owner_id(self, owner_id) -> list:
         return [offer.to_domain_model() for offer in OfferEntity.select().where(OfferEntity.offerer_id == owner_id)]
+
+    def get_offer_by_id(self, offer_id) -> Offer:
+        offer_entity = OfferEntity.get_or_none(OfferEntity.offer_id == offer_id)
+        if offer_entity is None:
+            return None
+        return offer_entity.to_domain_model()

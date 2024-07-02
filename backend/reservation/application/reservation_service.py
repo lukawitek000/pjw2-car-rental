@@ -30,7 +30,11 @@ class ReservationService:
         return reservation.reservation_id
 
     def get_reservations_by_user(self, user_id):
-        return self.reservation_repository[0].get_reservations_by_user(user_id)
+        reservations = self.reservation_repository[0].get_reservations_by_user(user_id)
+        for reservation in reservations:
+            offer = self.offer_repository[0].get_offer(reservation.offer_id)
+            reservation.car = offer.car
+        return reservations
 
     def cancel_reservation(self, reservation_id):
         return self.reservation_repository[0].delete_reservation(reservation_id)
